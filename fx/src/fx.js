@@ -143,7 +143,11 @@ function init()
     $(document).ready(function() {
         // setup the jquery dialog used to enter messages
         gDialog = $('<div></div>')
-            .html('<textarea style="display:block;width:370px" id="msgbox"></textarea><br>Alert sound: <select id="alertSoundMenu"><option value="none">None</option><option value="typing">Typing</option><option value="whistle">Whistle</option></select><br><br><center><input type="button" onclick="sendMessage(document.getElementById(\'msgbox\').value, document.getElementById(\'alertSoundMenu\').value)" value="Send" /></center>')
+            .html('<textarea style="display:block;width:370px" id="msgbox"></textarea><br>' + 
+                'Alert sound: <select id="alertSoundMenu"><option value="none">None</option>' + 
+                '<option value="typing">Typing</option><option value="whistle">Whistle</option></select>' + 
+                '<br><br><center><input type="button" onclick="sendMessage(document.getElementById(\'msgbox\').value, ' + 
+                'document.getElementById(\'alertSoundMenu\').value)" value="Send" /></center>')
             .dialog({
                 autoOpen: false,
                 title: 'Send Message',
