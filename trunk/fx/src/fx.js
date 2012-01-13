@@ -23,9 +23,9 @@ var gLastMessages = new Array();
 // array of sound resources that we may play upon message receipt
 var alertSound = new Array();
 alertSound['typing'] = gapi.hangout.av.effects.createAudioResource(
-    'http://code.google.com/p/hangout-apps/source/browse/fx/sounds/typing.wav').createSound();
+    'http://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
 alertSound['whistle'] = gapi.hangout.av.effects.createAudioResource(
-    'http://code.google.com/p/hangout-apps/source/browse/fx/sounds/whistle.wav').createSound();
+    'http://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
 
 // simple function to play one of the labeled alert sounds
 function playAlertSound(whichAlert) {
