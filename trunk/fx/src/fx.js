@@ -124,7 +124,7 @@ function createOverlays()
     gMaxScale['monocle'] = 1.5;
 
     var stache = gapi.hangout.av.effects.createImageResource(
-        'https://hangout-apps.googlecode.com/svn/trunk/fx/mustache.png');
+        'https://hangout-apps.googlecode.com/svn/trunk/fx/images/mustache.png');
     gOverlays['stache'] = stache.createFaceTrackingOverlay(
         {'trackingFeature':
          gapi.hangout.av.effects.FaceTrackingFeature.NOSE_TIP,
