@@ -160,7 +160,7 @@ function onStateChanged(event)
                     // get the name of the sender of this message
                     var senderId = splitKey[1];
                     var sender = gapi.hangout.getParticipantById(senderId);
-                    var message = sender.person.displayName + ' says: ' + state[key];
+                    var message = 'Private message from ' + sender.person.displayName + ': ' + state[key];
 
 					var replyButton = $('<button />')
 					    .html('<span style="font-size:12px">Reply</span>')
