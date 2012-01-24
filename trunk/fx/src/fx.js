@@ -20,17 +20,118 @@ var gMyId = null;
 // sent to the local user if it hasn't been recieved and displayed before.
 var gLastMessages = new Array();
 
-// array of sound resources that we may play upon message receipt
-var alertSound = new Array();
-alertSound['typing'] = gapi.hangout.av.effects.createAudioResource(
+// array of gOverlays
+var gOverlays = [];
+
+// Scale limits -- tiny hats look silly, but tiny monocles are fun.
+var gMinScale = [];
+var gMaxScale = [];
+
+var gUICurrentOverlay = "none";
+
+function selectOverlayButton(name)
+{
+    $('#hat-button-img').hide();
+    $('#monocle-button-img').hide();
+    $('#stache-button-img').hide();
+    if(gUICurrentOverlay !== name)
+    {
+        $('#' + name + '-prelight-img').hide();
+        $('#' + name + '-button-img').show();
+        gUICurrentOverlay = name;
+        showOverlay(name);
+    }
+    else
+    {
+        $('#' + name + '-prelight-img').show();
+    	gUICurrentOverlay = "none";
+    	hideOverlay(name);
+    }
+}
+
+function handlePrelight(name)
+{
+	$('#hat-prelight-img').hide();
+	$('#monocle-prelight-img').hide();
+	$('#stache-prelight-img').hide();
+	if(name && gUICurrentOverlay !== name)
+	    $('#' + name + '-prelight-img').show();
+}
+
+// array of sound resources that we may play
+var gSentSounds = new Array();
+gSentSounds['typing'] = gapi.hangout.av.effects.createAudioResource(
     'http://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
-alertSound['whistle'] = gapi.hangout.av.effects.createAudioResource(
+gSentSounds['whistle'] = gapi.hangout.av.effects.createAudioResource(
+    'http://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
+
+
+// array of sound resources that we may play upon message receipt
+var gAlertSounds = new Array();
+gAlertSounds['typing'] = gapi.hangout.av.effects.createAudioResource(
+    'http://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
+gAlertSounds['whistle'] = gapi.hangout.av.effects.createAudioResource(
     'http://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
 
 // simple function to play one of the labeled alert sounds
-function playAlertSound(whichAlert) 
+function playgAlertSounds(whichAlert) 
 {
-   if(whichAlert in alertSound) alertSound[whichAlert].play({loop: false});
+   if(whichAlert in gAlertSounds) gAlertSounds[whichAlert].play({loop: false});
+}
+
+// For removing every overlay
+function hideAllOverlays() 
+{
+    for (var index in gOverlays) 
+    {
+       gOverlays[index].setVisible(false);
+    }
+}
+
+function hideOverlay(name) 
+{
+    gOverlays[name].setVisible(false);
+}
+
+function showOverlay(name) 
+{
+    hideAllOverlays();
+    gOverlays[name].setVisible(true);
+}
+
+// Initialize our constants, build the overlays array
+function createOverlays() 
+{
+    var topHat = gapi.hangout.av.effects.createImageResource(
+        'https://hangout-apps.googlecode.com/svn/trunk/fx/images/topHat.png');
+    gOverlays['hat'] = topHat.createFaceTrackingOverlay(
+        {'trackingFeature':
+         gapi.hangout.av.effects.FaceTrackingFeature.NOSE_ROOT,
+         'scaleWithFace': true,
+         'rotateWithFace': true,
+         'scale': 1.0});
+    gMinScale['hat'] = 0.25;
+    gMaxScale['hat'] = 1.5;
+
+    var mono = gapi.hangout.av.effects.createImageResource(
+        'https://hangout-apps.googlecode.com/svn/trunk/fx/images/monocle.png');
+    gOverlays['monocle'] = mono.createFaceTrackingOverlay(
+        {'trackingFeature':
+         gapi.hangout.av.effects.FaceTrackingFeature.RIGHT_EYE,
+         'scaleWithFace': true,
+         'scale': 0.5});
+    gMinScale['monocle'] = 0.5;
+    gMaxScale['monocle'] = 1.5;
+
+    var stache = gapi.hangout.av.effects.createImageResource(
+        'https://hangout-apps.googlecode.com/svn/trunk/fx/mustache.png');
+    gOverlays['stache'] = stache.createFaceTrackingOverlay(
+        {'trackingFeature':
+         gapi.hangout.av.effects.FaceTrackingFeature.NOSE_TIP,
+         'scaleWithFace': true,
+         'rotateWithFace': true});
+    gMinScale['stache'] = 0.65;
+    gMaxScale['stache'] = 2.5;
 }
 
 // called when the state changes, which may indicate that there may be a new
@@ -61,10 +162,21 @@ function onStateChanged(event)
                     var sender = gapi.hangout.getParticipantById(senderId);
                     var message = sender.person.displayName + ' says: ' + state[key];
 
+					var replyButton = $('<button />')
+					    .html('<span style="font-size:12px">Reply</span>')
+						.button()
+                        .click(function() {
+                            gRecipient = senderId;
+                            gDialog.dialog('open');
+                            return false;
+                        });
+
                     // display the message and remove it from the state object -- also play any alert sound requested
                     $('#messageDisplay').text(message);
+                    $('#messageDisplay').append(replyButton);
+                    $('#messageDisplay').show(100);                    
                     gapi.hangout.data.clearValue(key);
-                    playAlertSound(splitKey[2]);
+                    playgAlertSounds(splitKey[2]);
                     gapi.hangout.layout.displayNotice(message, true);
                 }
             }
@@ -81,10 +193,10 @@ function onStateChanged(event)
 // the format of the key is:
 // recipient-id:sender-id:alert-sound-tag
 // the value this key maps to is the actual message to send.
-function sendMessage(message, alertSound) 
+function sendMessage(message, gAlertSounds) 
 {
     gDialog.dialog('close');
-    var key = gRecipient + ":" + gMyId + ":" + alertSound;
+    var key = gRecipient + ":" + gMyId + ":" + gAlertSounds;
     state = {};
     state[key] = message;
     gapi.hangout.data.submitDelta(state);
@@ -102,7 +214,13 @@ function render()
 // but is just a simple way to test the functionality at the moment.
 function createUserList() 
 {
-    temp = $('<div />');
+    var table = $('<table />').attr({
+        'cellspacing': '4',
+        'cellpadding': '0',
+        'summary': '',
+        'width': '100%'
+    });
+    
     for (var i = 0, iLen = gEnabledParticipants.length; i < iLen; ++i) 
     {
         var p = gEnabledParticipants[i];
@@ -113,15 +231,41 @@ function createUserList()
                 'alt': 'Avatar',
                 'src': p.person.image && p.person.image.url ? p.person.image.url : ""
             });	  
-            temp.append($('<div />').append(avatar, $('<span />').text(p.person.displayName)).click(function() {
+            var msgButton = $('<img />').attr({
+                'id': 'msg-button-' + i,
+                'width': '20',
+                'alt': 'Send Message',
+                'style': 'float:right;cursor:pointer;',
+                'src': 'https://hangout-apps.googlecode.com/svn/trunk/fx/css/private-msg-icon.png'
+            });	  
+            
+            msgButton.click(function() {
                 gRecipient = p.id;
                 gDialog.dialog('open');
                 return false;
-            }));
+            });
+                        
+            var partyRow = $('<tr />').attr('id', 'party-row-' + i);
+            var avatarCell = $('<td />')
+                .attr('style', "vertical-align:middle")
+                .append(avatar);
+            var nameCell = $('<td />')
+                .attr('style', "vertical-align:middle")
+                .text(p.person.displayName);
+            var msgButtonCell = $('<td />').attr({
+            	'style': "vertical-align:middle;width:28px",
+            	})
+                .append(msgButton);
+                
+            partyRow.append(avatarCell, nameCell, msgButtonCell);
+            partyRow.mouseenter(function(event) {
+                $('#msg-button-' + i).show();
+            });
+            table.append(partyRow);
         }
     }	
 
-    return temp;
+    return table;
 }
 
 // updates the local list of enabled participants
@@ -144,10 +288,10 @@ function init()
         // setup the jquery dialog used to enter messages
         gDialog = $('<div></div>')
             .html('<textarea style="display:block;width:370px" id="msgbox"></textarea><br>' + 
-                'Alert sound: <select id="alertSoundMenu"><option value="none">None</option>' + 
+                'Alert sound: <select id="gAlertSoundsMenu"><option value="none">None</option>' + 
                 '<option value="typing">Typing</option><option value="whistle">Whistle</option></select>' + 
                 '<br><br><center><input type="button" onclick="sendMessage(document.getElementById(\'msgbox\').value, ' + 
-                'document.getElementById(\'alertSoundMenu\').value)" value="Send" /></center>')
+                'document.getElementById(\'gAlertSoundsMenu\').value)" value="Send" /></center>')
             .dialog({
                 autoOpen: false,
                 title: 'Send Message',
@@ -163,15 +307,14 @@ function init()
     gapi.hangout.onApiReady.add(function(eventObj) {
         if(eventObj.isApiReady) 
         {
-            // create the main div container for the app
-            gContainer = $('<div />');
-            var body = $('body');
-            body.append(gContainer);
+            // get the main div container for the app
+            gContainer = $('#participant-list');
 			
             // grab my participant ID and register some event handlers
             gMyId = gapi.hangout.getParticipantId();
             gapi.hangout.data.onStateChanged.add(onStateChanged);
             gapi.hangout.onEnabledParticipantsChanged.add(onParticipantsChanged);
+            createOverlays();
             updateParticipants();
         }
     });
