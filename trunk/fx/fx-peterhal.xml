@@ -43,7 +43,7 @@
 
 <div id="overlay-controls" style="background:url(https://hangout-apps.googlecode.com/svn/trunk/fx/css/fx-overlays-button-bar.png);width:243px;height:44px;">
   <div id="hat-button" style="position:absolute;left:8px;top:3px;width:54px;height:42px;cursor:pointer" onclick="selectOverlayButton('hat')" onmouseover="handlePrelight('hat')" onmouseout="handlePrelight()">
-    <img id="hat-prelight-img" style="display:none" src="https://hangout-apps.googlecode.com/svn/trunk/fx/fx/css/hat-prelight.png">
+    <img id="hat-prelight-img" style="display:none" src="https://hangout-apps.googlecode.com/svn/trunk/fx/css/hat-prelight.png">
     <img id="hat-button-img" style="display:none" src="https://hangout-apps.googlecode.com/svn/trunk/fx/css/hat-button.png">
   </div>
   <div id="monocle-button" style="position:absolute;left:66px;top:3px;width:54px;height:42px;cursor:pointer;" onclick="selectOverlayButton('monocle')" onmouseover="handlePrelight('monocle')" onmouseout="handlePrelight()">
