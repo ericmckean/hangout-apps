@@ -8,6 +8,7 @@ var gEnabledParticipants = null;
 
 // used to store the participant we are currently trying to send a message to
 var gRecipient = null;
+var gHideMessageDisplayAfterSend = false;
 
 // holds the jquery dialog that we pop up whenever the user wants to send a message
 var gDialog = null;
@@ -167,6 +168,7 @@ function onStateChanged(event)
 						.button()
                         .click(function() {
                             gRecipient = senderId;
+                            gHideMessageDisplayAfterSend = true;
                             gDialog.dialog('open');
                             return false;
                         });
@@ -200,6 +202,11 @@ function sendMessage(message, gAlertSounds)
     state = {};
     state[key] = message;
     gapi.hangout.data.submitDelta(state);
+    if(gHideMessageDisplayAfterSend)
+    {
+        gHideMessageDisplayAfterSend = false;
+        $('#messageDisplay').hide();
+    }
 }
 
 // just renders the app in the main container div
@@ -208,10 +215,9 @@ function render()
       gContainer.empty().append(createUserList());
 }
 
-// creates a series of divs showing the avatar thumbnail and name of each enabled
-// participant.  Each div has an onclick handler to open the send message dialog
-// for that participant when the div is clicked on.  Obviously this UI will change,
-// but is just a simple way to test the functionality at the moment.
+// creates a table showing the avatar thumbnail and name of each enabled
+// participant, along with action icons (right now just the message icon).  
+// The message icon has a click handler to open the send message dialog.
 function createUserList() 
 {
     var table = $('<table />').attr({
