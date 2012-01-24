@@ -1,5 +1,13 @@
 gapi.hangout.onApiReady.add(function() {
 
+  // debugging
+  var debugging = true;
+  var assert = function(value) {
+    if (debugging && !value) {
+      debugger;
+    }
+  }
+
   // javascript helpers
   var mixin = function(to, from) {
     for (var property in from) {
@@ -22,12 +30,6 @@ gapi.hangout.onApiReady.add(function() {
       return undefined;
     } else {
       return JSON.parse(value);
-    }
-  }
-  var debugging = true;
-  var assert = function(value) {
-    if (debugging && !value) {
-      debugger;
     }
   }
 
@@ -59,14 +61,14 @@ gapi.hangout.onApiReady.add(function() {
       listeners[i].apply(null, arguments);
     }
   };
-  EventSource.prototype.fireOnCondition_ = function(source, condition) {
+  EventSource.prototype.fireOnCondition = function(source, condition) {
     var listener = (function(var_args) {
       if (condition.apply(null, arguments)) {
         source.removeListener(listener);
         this.fireListeners_();
       }
     }).bind(this);
-    app.state().addListener(listener);
+    this.addListener(listener);
   };
   EventSource.prototype.addListener = function(listener) {
     this.listeners_.push(listener);
@@ -231,7 +233,7 @@ gapi.hangout.onApiReady.add(function() {
     this.valueCompare_ = function(newValue, oldValue) { return newValue === oldValue; };
     this.id_ = id;
     this.players_ = {};
-    this.keyprefix_ = id + '$';
+    this.keyPrefix_ = id + '$';
     var callback = debugListener(this.onStateChanged_.bind(this), 'UserData');
     this.callback_ = callback;
     gapi.hangout.data.onStateChanged.add(callback);
@@ -257,8 +259,8 @@ gapi.hangout.onApiReady.add(function() {
     var keys = gapi.hangout.data.getKeys();
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
-      if (key.indexOf(this.keyprefix_) == 0) {
-        id = key.substr(this.keyprefix_.length);
+      if (key.indexOf(this.keyPrefix_) == 0) {
+        id = key.substr(this.keyPrefix_.length);
         participant = gapi.hangout.getParticipantById(id);
         if (participant && participant.hasAppEnabled) {
           var value = parse(gapi.hangout.data.getValue(key));
@@ -275,7 +277,7 @@ gapi.hangout.onApiReady.add(function() {
     for (id in this.players_) {
       participant = gapi.hangout.getParticipantById(id);
       if (!participant || !participant.hasAppEnabled ||
-          !((this.keyprefix_ + id) in gapi.hangout.data.getState())) {
+          !((this.keyPrefix_ + id) in gapi.hangout.data.getState())) {
         delete this.players_[id];
         changed = true;
       }
@@ -290,7 +292,7 @@ gapi.hangout.onApiReady.add(function() {
   };
   HangoutUserData.prototype.setForParticipant = function(participantId, value) {
     var delta = {};
-    delta[this.keyprefix_ + participantId] = stringify(value);
+    delta[this.keyPrefix_ + participantId] = stringify(value);
     gapi.hangout.data.submitDelta(delta);
   };
   HangoutUserData.prototype.playerCount = function() {
@@ -347,11 +349,15 @@ gapi.hangout.onApiReady.add(function() {
     this.readyData_.set(false);
   };
   ReadyList.prototype.addPlayer_ = function(id) {
-    var name = createTextNode(gapi.hangout.getParticipantById(id).person.displayName + ' ' + id);
+    var name = gapi.hangout.getParticipantById(id).person.displayName;
+    if (debugging) {
+      name = name + ' ' + id.substr(-4);
+    }
+    var nameNode = createTextNode(name);
     var status = createElement('input');
     status.type = 'checkbox';
     status.disabled = true;
-    var row = createElement('tr', [name, status]);
+    var row = createElement('tr', [nameNode, status]);
 
     this.players_[id] = {row: row, status: status};
     this.setPlayerChecked_(id);
@@ -432,11 +438,10 @@ gapi.hangout.onApiReady.add(function() {
     }
   };
 
-  var Screen = function(app) {
-    Disposable.call(this);
-    this.app_ = app;
+  var Screen = function() {
+    EventSource.call(this);
   };
-  mixinClass(Screen, Disposable);
+  mixinClass(Screen, EventSource);
   Screen.prototype.show = function(parent) {
     parent.appendChild(this.dom());
   };
@@ -445,34 +450,34 @@ gapi.hangout.onApiReady.add(function() {
     Disposable.prototype.dispose.call(this);
   };
 
-  var StartScreen = function(app) {
-    Screen.call(this, app);
-    app.showEveryone();
-    this.readyList_ = new ReadyList(2);
+  var StartScreen = function() {
+    Screen.call(this);
+
+    var minimumPlayers = 4;
+    if (debugging) {
+      minimumPlayers = 1;
+    }
+    this.readyList_ = new ReadyList(minimumPlayers);
     this.registerDispose(this.readyList_);
     this.readyList_.reset();
-    this.readyList_.addListener(this.app_.everyoneReady.bind(this.app_));
+    this.readyList_.addListener(this.fireListeners_.bind(this));
   };
   mixinClass(StartScreen, Screen);
   StartScreen.prototype.dom = function() { return this.readyList_.dom(); };
 
-  var WaitForNewGameScreen = function(app) {
-    Screen.call(this, app);
-    app.showEveryone();
+  var WaitForNewGameScreen = function() {
+    Screen.call(this);
     // TODO: show game progress - teams, score, round, etc.
     this.dom_ = createTextNode('Game already in progress. Waiting for game to finish...');
   }
   mixinClass(WaitForNewGameScreen, Screen);
   WaitForNewGameScreen.prototype.dom = function() { return this.dom_; };
 
-  var WaitForClueScreen = function(app) {
-    Screen.call(this, app);
-
-    app.showTeammates();
-    app.hideOpponents();
+  var WaitForClueScreen = function(actor) {
+    Screen.call(this);
 
     this.messageNode_ = createTextNode('');
-    this.actor_ = app.actor();
+    this.actor_ = actor;
     this.onActorChanged_ = this.setMessage_.bind(this);
     this.registerDispose(this.actor_.addListener(this.onActorChanged_));
     this.setMessage_();
@@ -496,55 +501,46 @@ gapi.hangout.onApiReady.add(function() {
     this.messageNode_.nodeValue = this.message_();
   };
 
-  var EnterClueScreen = function(app) {
-    Screen.call(this, app);
+  var EnterClueScreen = function(clue) {
+    Screen.call(this);
     // TODO: add timer?
-    app.showTeammates();
-    app.hideOpponents();
+    // TODO: add list to pick from
 
     this.message_ = createTextNode('Enter Clue:');
     this.input_ = new TextInput();
     this.done_ = createButton('Start!');
     this.dom_ = createElement('div', [this.message_, this.input_.dom(), this.done_]);
     this.input_.onChange.addListener(this.onChanged_.bind(this));
-    this.done_.addEventListener('click', this.onDone_.bind(this));
-    app.guessed().set(false);
+    this.done_.addEventListener('click', this.fireListeners_.bind(this));
+    this.clue_ = clue;
   };
   mixinClass(EnterClueScreen, Screen);
   EnterClueScreen.prototype.dom = function() { return this.dom_; };
   EnterClueScreen.prototype.onChanged_ = function() {
-    this.app_.clue().set(this.input_.value());
-  };
-  EnterClueScreen.prototype.onDone_ = function() {
-    // TODO: wait for actor selection
-    this.app_.state().set(CharadesAppState.ACTING);
+    this.clue_.set(this.input_.value());
   };
 
-  var WatchEnterClueScreen = function(app) {
-    Screen.call(this, app);
-
-    app.showTeammates();
-    app.hideOpponents();
+  var WatchEnterClueScreen = function(clue) {
+    Screen.call(this);
 
     this.message_ = createTextNode('Current Clue:');
-    this.clue_ = new SharedTextNode(app.clue());
+    this.clue_ = new SharedTextNode(clue);
     this.registerDispose(this.clue_);
     this.dom_ = createElement('div', [this.message_, this.clue_.dom()]);
   };
   mixinClass(WatchEnterClueScreen, Screen);
   WatchEnterClueScreen.prototype.dom = function() { return this.dom_; };
 
-  var ActingScreen = function(app) {
-    Screen.call(this, app);
+  var ActingScreen = function(clue, timer) {
+    Screen.call(this);
 
-    app.showEveryone();
     gapi.hangout.av.setMicrophoneMute(true);
-    app.showActor();
 
     this.message_ = createTextNode('Current Clue:');
-    this.clue_ = createTextNode(app.clue().value());
+    this.clue_ = createTextNode(clue.value());
     this.startTime_ = Date.now();
-    this.timeRemaining_ = new SharedTextNode(app.timer());
+    this.timer_ = timer;
+    this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
     this.registerDispose(window.setInterval(this.onTimerTick_.bind(this), 100));
     this.onTimerTick_();
@@ -561,72 +557,65 @@ gapi.hangout.onApiReady.add(function() {
     var TWO_MINUTES = 120000;
     var remaining = elapsedTime - TWO_MINUTES;
     if (remaining <= 0) {
-      this.app_.state().set(CharadesAppState.ACTING_OVER);
+      this.fireListeners_();
+    } else {
+      this.timer_.set('Time Remaining: ' + (remaining * 1000).toFixed(1));
     }
-    this.app_.timer().set('Time Remaining: ' + (remaining * 1000).toFixed(1));
   };
 
-  var GuessingScreen = function(app) {
-    Screen.call(this, app);
+  var GuessingScreen = function(timer) {
+    Screen.call(this);
 
-    app.showEveryone();
-    app.showActor();
-
-    // TODO: hide opponents?
-    this.timeRemaining_ = new SharedTextNode(app.timer());
+    this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
     this.dom_ = this.timeRemaining_.dom();
   }
   mixinClass(GuessingScreen, Screen);
   GuessingScreen.prototype.dom = function() { return this.dom_; };
 
-  var JudgingScreen = function(app) {
-    Screen.call(this, app);
+  var JudgingScreen = function(timer, clue, guessed) {
+    Screen.call(this);
 
-    app.showEveryone();
-    app.showActor();
-
-    this.timeRemaining_ = new SharedTextNode(app.timer());
+    this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
-    this.message_ = createTextNode('Current clue is: ' + app.clue().value());
+    this.message_ = createTextNode('Current clue is: ' + clue.value());
     this.correctButton_ = createButton('Opponents Guessed Correct!');
     this.correctButton_.addEventListener('click', this.onGuessed_.bind(this));
     this.dom_ = createElement('div', [this.message_, this.correctButton_, this.timeRemaining_.dom()]);
+    this.guessed_ = guessed;
   }
   mixinClass(JudgingScreen, Screen);
   JudgingScreen.prototype.dom = function() { return this.dom_; };
   JudgingScreen.prototype.onGuessed_ = function() {
-    this.app_.guessed().set(true);
-    this.app_.state().set(CharadesAppState.ACTING_OVER);
+    this.guessed_.set(true);
+    this.fireListeners_();
   }
 
-  var ScoresList = function(app) {
+  var ScoresList = function(scores) {
     // table, rows & score
     var rows = [];
-    var participants = app.scores().players();
+    var participants = scores.players();
     // TODO: Show only score for this game?
     // TODO: Sort by team?
     for (var i = 0; i < participants.length; i++) {
       rows.push(createElement('tr', [
           createTextNode(participants[i]),
-          createTextNode(app.scores().value(participants[i]))
+          createTextNode(scores.value(participants[i]))
         ]));
     }
     this.dom_ = createElement('table', rows);
   };
   ScoresList.prototype.dom = function() { return this.dom_; };
 
-  var RoundEndScreen = function(app) {
-    Screen.call(this, app);
+  var RoundEndScreen = function(scores, isMaster) {
+    Screen.call(this);
 
-    app.showEveryone();
-
-    var scores = new ScoresList(app);
+    var scores = new ScoresList(scores);
     var elements = [scores.dom()];
-    if (app.isMaster()) {
+    if (isMaster) {
       // TODO: master gets next game button? or Timer?
       var button = createButton('Start Next Game!');
-      button.addEventListener('click', function() {app.state().set(CharadesAppState.START);});
+      button.addEventListener('click', this.fireListeners_.bind(this));
       elements.push(button);
     }
     var div_ = createElement('div', elements);
@@ -663,32 +652,12 @@ gapi.hangout.onApiReady.add(function() {
     }
   };
   mixinClass(CharadesApp, Disposable);
-  CharadesApp.prototype.isMaster = function() {
-    return this.isMaster_;
-  };
-  CharadesApp.prototype.clue = function() {
-    return this.clue_;
-  };
-  CharadesApp.prototype.scores = function() {
-    return this.scores_;
-  };
-  CharadesApp.prototype.state = function() {
-    return this.state_;
-  };
-  CharadesApp.prototype.actor = function() {
-    return this.actor_;
-  };
-  CharadesApp.prototype.guessed = function() {
-    return this.guessed_;
-  };
-  CharadesApp.prototype.timer = function() {
-    return this.timer_;
-  };
   CharadesApp.prototype.init = function() {
     this.showNextScreen_();
   };
   CharadesApp.prototype.waitForNewGame_ = function() {
-    this.showScreen_(new WaitForNewGameScreen(this));
+    this.showEveryone();
+    this.showScreen_(new WaitForNewGameScreen());
   };
   CharadesApp.prototype.showScreen_ = function(screen) {
     if (this.screen_) {
@@ -698,7 +667,7 @@ gapi.hangout.onApiReady.add(function() {
     this.screen_.show(this.mainDiv_);
   };
   CharadesApp.prototype.showActor = function() {
-    gapi.hangout.setDisplayedParticipant(this.actor().value());
+    gapi.hangout.setDisplayedParticipant(this.actor_.value());
   };
   CharadesApp.prototype.clearActor = function() {
     gapi.hangout.clearDisplayedParticipant();
@@ -720,9 +689,12 @@ gapi.hangout.onApiReady.add(function() {
     this.showParticipants(this.opponents_, false);
   };
   CharadesApp.prototype.start_ = function() {
-    this.showScreen_(new StartScreen(this));
+    this.showEveryone();
+    var screen = new StartScreen();
+    this.showScreen_(screen);
+    screen.addListener(this.everyoneReady_.bind(this));
   };
-  CharadesApp.prototype.everyoneReady = function(playerIds) {
+  CharadesApp.prototype.everyoneReady_ = function(playerIds) {
     // TODO: listen for participant left and abort the game.
     this.setTeams_(playerIds);
     if (this.isMaster_) {
@@ -767,14 +739,25 @@ gapi.hangout.onApiReady.add(function() {
       this.actor_.set(nextActor);
       this.lastRoundActed_.setForParticipant(nextActor, this.roundNumber_.value());
     }
-    this.showScreen_(new WaitForClueScreen(this));
+  }
+  CharadesApp.prototype.showWaitForClueScreen_ = function() {
+    this.showTeammates();
+    this.hideOpponents();
+    this.showScreen_(new WaitForClueScreen(this.actor_));
   };
   CharadesApp.prototype.pickClue_ = function() {
     var screen;
     if (this.isTeamCaptain_) {
-      screen = new EnterClueScreen(this);
+      this.showTeammates();
+      this.hideOpponents();
+      this.guessed_.set(false);
+      screen = new EnterClueScreen(this.clue_);
+    // TODO: wait for actor selection
+      screen.addListener((function() { this.state_.set(CharadesAppState.ACTING); }).bind(this));
     } else {
-      screen = new WatchEnterClueScreen(this);
+      this.showTeammates();
+      this.hideOpponents();
+      screen = new WatchEnterClueScreen(this.clue_);
     }
     this.showScreen_(screen);
   };
@@ -788,13 +771,24 @@ gapi.hangout.onApiReady.add(function() {
     return this.isActingTeam_() && !this.isActing_();
   }
   CharadesApp.prototype.act_ = function() {
-    this.showScreen_(new ActingScreen(this));
+    this.showEveryone();
+    this.showActor();
+    var screen = new ActingScreen(this.clue_, this.timer_);
+    screen.addListener((function() { this.state_.set(CharadesAppState.ACTING_OVER); }).bind(this));
+    this.showScreen_(screen);
   };
   CharadesApp.prototype.guess_ = function() {
-    this.showScreen_(new GuessingScreen(this));
+    this.showEveryone();
+    this.showActor();
+    // TODO: hide opponents?
+    this.showScreen_(new GuessingScreen(this.timer_));
   };
   CharadesApp.prototype.judge_ = function() {
-    this.showScreen_(new JudgingScreen(this));
+    this.showEveryone();
+    this.showActor();
+    var screen = new JudgingScreen(this.timer_, this.clue_, this.guessed_);
+    screen.addListener((function() { this.state_.set(CharadesAppState.ACTING_OVER); }).bind(this));
+    this.showScreen_(screen);
   };
   CharadesApp.prototype.startActing_ = function() {
     if (this.isActing_()) {
@@ -817,7 +811,10 @@ gapi.hangout.onApiReady.add(function() {
     }
   };
   CharadesApp.prototype.showRoundOver_ = function() {
-    this.showScreen_(new RoundEndScreen(this));
+    this.showEveryone();
+    var screen = new RoundEndScreen(this.scores_, this.isMaster_);
+    screen.addListener((function() { this.state_.set(CharadesAppState.START);}).bind(this));
+    this.showScreen_(screen);
   };
   CharadesApp.prototype.roundEnd_ = function() {
     if (this.isGameOver_()) {
@@ -858,6 +855,25 @@ gapi.hangout.onApiReady.add(function() {
       break;
     }
   };
+  if (debugging) {
+    CharadesApp.prototype.showNextScreen_ = function() {
+      var screen;
+      // screen = new StartScreen();
+      screen = new WaitForNewGameScreen();
+
+      // screen = new WatchEnterClueScreen(this.clue_);
+      // screen = new EnterClueScreen(this.clue_);
+      // screen = new WaitForClueScreen(this.actor_);
+
+      // screen = new JudgingScreen(this.timer_, this.clue_, this.guessed_);
+      // screen = new GuessingScreen(this.timer_);
+      // screen = new ActingScreen(this.clue_, this.timer_);
+
+      // screen = new RoundEndScreen(this.scores_, this.isMaster_);
+      screen.addListener(function() { alert('Screen complete!'); });
+      this.showScreen_(screen);
+    }
+  }
 
   new CharadesApp();
 });
