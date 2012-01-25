@@ -60,10 +60,11 @@
 <div id="participant-list" style="height:200px;scroll:auto">
 </div>
 
-<center>
-<div id="messageDisplay" style="border-top:1px solid #a0adbb;padding:4px;display:none">
+<div id="messageDisplay" style="width:243px;border-top:1px solid #a0adbb;padding:4px;display:none">
 </div>
-</center>
+
+<div id="giftDisplay" style="width:243px;border-top:1px solid #a0adbb;padding:4px;display:none">
+</div>
 
 </div>
 
