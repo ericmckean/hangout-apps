@@ -24,10 +24,6 @@ var gLastMessages = new Array();
 // array of gOverlays
 var gOverlays = [];
 
-// Scale limits -- tiny hats look silly, but tiny monocles are fun.
-var gMinScale = [];
-var gMaxScale = [];
-
 var gUICurrentOverlay = "none";
 
 function selectOverlayButton(name)
@@ -111,8 +107,6 @@ function createOverlays()
          'scaleWithFace': true,
          'rotateWithFace': true,
          'scale': 1.0});
-    gMinScale['hat'] = 0.25;
-    gMaxScale['hat'] = 1.5;
 
     var mono = gapi.hangout.av.effects.createImageResource(
         'https://hangout-apps.googlecode.com/svn/trunk/fx/images/monocle.png');
@@ -121,8 +115,6 @@ function createOverlays()
          gapi.hangout.av.effects.FaceTrackingFeature.RIGHT_EYE,
          'scaleWithFace': true,
          'scale': 0.5});
-    gMinScale['monocle'] = 0.5;
-    gMaxScale['monocle'] = 1.5;
 
     var stache = gapi.hangout.av.effects.createImageResource(
         'https://hangout-apps.googlecode.com/svn/trunk/fx/images/mustache.png');
@@ -131,8 +123,17 @@ function createOverlays()
          gapi.hangout.av.effects.FaceTrackingFeature.NOSE_TIP,
          'scaleWithFace': true,
          'rotateWithFace': true});
-    gMinScale['stache'] = 0.65;
-    gMaxScale['stache'] = 2.5;
+
+    var flowers = gapi.hangout.av.effects.createImageResource(
+        'https://hangout-apps.googlecode.com/svn/trunk/fx/images/flowers.png');
+    gOverlays['flowers'] = flowers.createFaceTrackingOverlay(
+        {'trackingFeature':
+         gapi.hangout.av.effects.FaceTrackingFeature.LEFT_EYE,
+         'offset': {'x': 0.35, 'y': 0.25},
+         'scaleWithFace': false,
+         'rotateWithFace': false,
+         'scale': 0.4});
+    gOverlays['flowers'].readableName = "flowers";
 }
 
 // called when the state changes, which may indicate that there may be a new
@@ -144,9 +145,9 @@ function onStateChanged(event)
         state = event.state;
         metadata = event.metadata;
 
-        // loop through the keys in the state, whih currently are just message entries
+        // loop through the keys in the state, which currently are just message entries
         // the message keys all have the following format:
-        // recipient-id:sender-id:alert-sound-tag
+        // recipient-id:message-type:sender-id:alert-sound-tag
         for(key in state)
         {
             // see if this entry is a message for the local user
@@ -159,27 +160,95 @@ function onStateChanged(event)
                     splitKey = key.split(':');
 
                     // get the name of the sender of this message
-                    var senderId = splitKey[1];
+                    var senderId = splitKey[2];
                     var sender = gapi.hangout.getParticipantById(senderId);
-                    var message = sender.person.displayName + ' says: ' + state[key];
 
-					var replyButton = $('<button />')
-					    .html('<span style="font-size:12px">Reply</span>')
-						.button()
-                        .click(function() {
-                            gRecipient = senderId;
-                            gHideMessageDisplayAfterSend = true;
-                            gDialog.dialog('open');
-                            return false;
-                        });
+                    // get the message type
+                    var messageType = splitKey[1];
 
-                    // display the message and remove it from the state object -- also play any alert sound requested
-                    $('#messageDisplay').text(message);
-                    $('#messageDisplay').append(replyButton);
-                    $('#messageDisplay').show(100);                    
-                    gapi.hangout.data.clearValue(key);
-                    playgAlertSounds(splitKey[2]);
-                    gapi.hangout.layout.displayNotice(message, true);
+                    // handle PMs
+                    if(messageType === "pm")
+		    {
+                        var message = sender.person.displayName + ' says: ' + state[key];
+ 
+                        var replyButton = $('<button />')
+			    .html('<span style="font-size:12px">Reply</span>')
+			    .button()
+                            .click(function() {
+                                gRecipient = senderId;
+                                gHideMessageDisplayAfterSend = true;
+                                gDialog.dialog('open');
+                                return false;
+                            });
+
+                        // display the message and remove it from the state object -- also play any alert sound requested
+                        $('#messageDisplay').text(message);
+                        $('#messageDisplay').append($('<br />'), replyButton);
+                        $('#messageDisplay').show();                    
+                        gapi.hangout.data.clearValue(key);
+                        playgAlertSounds(splitKey[3]);
+                        gapi.hangout.layout.displayNotice(message, true);
+                    }
+                    // handle gifts
+                    else if(messageType === "gift")
+		    {
+                        var overlay = state[key];
+
+                        var message = sender.person.displayName + ' has sent you  ' + gOverlays[overlay].readableName + '.';
+ 
+                        var acceptButton = $('<button />')
+			    .html('<span style="font-size:12px">Accept</span>')
+			    .button()
+                            .click(function() {
+                                gRecipient = senderId;
+				sendGiftResponse(overlay, "none", "accepted"); 
+                                showOverlay(overlay);
+                                $('#hat-button-img').hide();     //temp
+                                $('#monocle-button-img').hide(); //temp
+                                $('#stache-button-img').hide();  //temp
+                                $('#giftDisplay').hide();
+                                return false;
+                            });
+
+                        var rejectButton = $('<button />')
+			    .html('<span style="font-size:12px">Refuse</span>')
+			    .button()
+                            .click(function() {
+                                gRecipient = senderId;
+				sendGiftResponse(overlay, "none", "rejected"); 
+                                $('#giftDisplay').hide();
+                                return false;
+                            });
+
+                        // display the message and remove it from the state object -- also play any alert sound requested
+                        $('#giftDisplay').text(message);
+                        $('#giftDisplay').append($('<br />'), acceptButton, rejectButton);
+                        $('#giftDisplay').show();                    
+                        gapi.hangout.data.clearValue(key);
+                        playgAlertSounds(splitKey[3]);
+                    }
+                    else if(messageType === "gift-accepted")
+		    {
+                        var overlay = state[key];
+
+                        var message = sender.person.displayName + ' accepted your gift of ' + gOverlays[overlay].readableName + '.';
+ 
+                        // display the message and remove it from the state object -- also play any alert sound requested
+                        gapi.hangout.data.clearValue(key);
+                        playgAlertSounds(splitKey[3]);
+                        gapi.hangout.layout.displayNotice(message, true);
+                    }
+                    else if(messageType === "gift-rejected")
+		    {
+                        var overlay = state[key];
+
+                        var message = sender.person.displayName + ' refused your gift of ' + gOverlays[overlay].readableName + '.';
+ 
+                        // display the message and remove it from the state object -- also play any alert sound requested
+                        gapi.hangout.data.clearValue(key);
+                        playgAlertSounds(splitKey[3]);
+                        gapi.hangout.layout.displayNotice(message, true);
+                    }
                 }
             }
         }
@@ -193,12 +262,12 @@ function onStateChanged(event)
 
 // sends a targeted message by adding a message entry to the state
 // the format of the key is:
-// recipient-id:sender-id:alert-sound-tag
+// recipient-id:pm:sender-id:alert-sound-tag
 // the value this key maps to is the actual message to send.
-function sendMessage(message, gAlertSounds) 
+function sendMessage(message, alertSound) 
 {
     gDialog.dialog('close');
-    var key = gRecipient + ":" + gMyId + ":" + gAlertSounds;
+    var key = gRecipient + ":pm:" + gMyId + ":" + alertSound;
     state = {};
     state[key] = message;
     gapi.hangout.data.submitDelta(state);
@@ -207,6 +276,37 @@ function sendMessage(message, gAlertSounds)
         gHideMessageDisplayAfterSend = false;
         $('#messageDisplay').hide();
     }
+}
+
+
+// sends a targeted overlay by adding a message entry to the state
+// the format of the key is:
+// recipient-id:gift:sender-id:alert-sound-tag
+// the value this key maps to is the overlay to use.
+function sendGift(overlay, alertSound)
+{
+    var key = gRecipient + ":gift:" + gMyId + ":" + alertSound;
+    state = {};
+    state[key] = overlay;
+    gapi.hangout.data.submitDelta(state);
+
+    var message = "You just sent " + gOverlays[overlay].readableName + " to " 
+        + gapi.hangout.getParticipantById(gRecipient).person.displayName;
+     gapi.hangout.layout.displayNotice(message, false);
+}
+
+// sends a targeted overlay by adding a message entry to the state
+// the format of the key is:
+// recipient-id:gift-accepted:sender-id:alert-sound-tag
+// or
+// recipient-id:gift-rejected:sender-id:alert-sound-tag
+// the value this key maps to is the overlay to use.
+function sendGiftResponse(overlay, alertSound, status)
+{
+    var key = gRecipient + ":gift-" + status + ":" + gMyId + ":" + alertSound;
+    state = {};
+    state[key] = overlay;
+    gapi.hangout.data.submitDelta(state);
 }
 
 // just renders the app in the main container div
@@ -238,19 +338,36 @@ function createUserList()
                 'src': p.person.image && p.person.image.url ? p.person.image.url : ""
             });	  
             var msgButton = $('<img />').attr({
-                'id': 'msg-button-' + i,
+                'id': 'msg-button-' + p.id,
+                'name': p.id,
                 'width': '20',
                 'alt': 'Send Message',
                 'style': 'float:right;cursor:pointer;',
                 'src': 'https://hangout-apps.googlecode.com/svn/trunk/fx/css/private-msg-icon.png'
             });	  
-            
-            msgButton.click(function() {
-                gRecipient = p.id;
+            msgButton.recipID = p.id;
+
+            msgButton.click(function(event) {
+                gRecipient = event.target.name;
                 gDialog.dialog('open');
                 return false;
             });
-                        
+
+            var giftButton = $('<img />').attr({
+                'id': 'gift-button-' + p.id,
+                'name': p.id,
+                'width': '22',
+                'alt': 'Send Gift',
+                'style': 'float:right;cursor:pointer;',
+                'src': 'https://hangout-apps.googlecode.com/svn/trunk/fx/css/flowers-icon.png',
+            });	  
+
+            giftButton.click(function(event) {
+                gRecipient = event.target.name;
+                sendGift('flowers', 'none');
+                return false;
+            });
+
             var partyRow = $('<tr />').attr('id', 'party-row-' + i);
             var avatarCell = $('<td />')
                 .attr('style', "vertical-align:middle")
@@ -259,11 +376,15 @@ function createUserList()
                 .attr('style', "vertical-align:middle")
                 .text(p.person.displayName);
             var msgButtonCell = $('<td />').attr({
-            	'style': "vertical-align:middle;width:28px",
+            	'style': "vertical-align:middle;width:22px",
             	})
                 .append(msgButton);
+            var giftButtonCell = $('<td />').attr({
+            	'style': "vertical-align:middle;width:22px",
+            	})
+                .append(giftButton);
                 
-            partyRow.append(avatarCell, nameCell, msgButtonCell);
+            partyRow.append(avatarCell, nameCell, giftButtonCell, msgButtonCell);
             partyRow.mouseenter(function(event) {
                 $('#msg-button-' + i).show();
             });
@@ -294,10 +415,10 @@ function init()
         // setup the jquery dialog used to enter messages
         gDialog = $('<div></div>')
             .html('<textarea style="display:block;width:370px" id="msgbox"></textarea><br>' + 
-                'Alert sound: <select id="gAlertSoundsMenu"><option value="none">None</option>' + 
+                'Alert sound: <select id="alertSoundsMenu"><option value="none">None</option>' + 
                 '<option value="typing">Typing</option><option value="whistle">Whistle</option></select>' + 
                 '<br><br><center><input type="button" onclick="sendMessage(document.getElementById(\'msgbox\').value, ' + 
-                'document.getElementById(\'gAlertSoundsMenu\').value)" value="Send" /></center>')
+                'document.getElementById(\'alertSoundsMenu\').value)" value="Send" /></center>')
             .dialog({
                 autoOpen: false,
                 title: 'Send Message',
