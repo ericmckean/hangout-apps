@@ -646,7 +646,7 @@ gapi.hangout.onApiReady.add(function() {
   };
   ActingScreen.prototype.onTimerTick_ = function() {
     var elapsedTime = Date.now() - this.startTime_;
-    var TWO_MINUTES = debugging ? 2000 : 120000;
+    var TWO_MINUTES = debugging ? 30000 : 120000;
     var remaining = TWO_MINUTES - elapsedTime;
     if (remaining <= 0) {
       this.fireListeners_();
@@ -685,25 +685,27 @@ gapi.hangout.onApiReady.add(function() {
     this.fireListeners_();
   }
 
-  var RoundEndScreen = function(scores, isMaster) {
+  var RoundEndScreen = function(round, team, guessed, clue, scores, isMaster) {
     Screen.call(this);
-
+    // TODO: Show clue, guessed and remaining time as well.
     var scores = new ScoresList(scores);
     var elements = [scores.dom()];
     if (isMaster) {
       // TODO: master gets next game button? or Timer?
-      var button = createButton('Start Next Game!');
+      var button = createButton('Start Next Round!');
       button.addEventListener('click', this.fireListeners_.bind(this));
       elements.push(button);
     }
-    this.dom_ = createDialogScreen('round-end-screen', 'Round Over', elements);
+    var title = 'Round ' + round + ' Over. Team ' + team + (guessed ? ' guessed ' : ' did not guess ') + clue;
+    this.dom_ = createDialogScreen('round-end-screen', title, elements);
   };
   mixinClass(RoundEndScreen, Screen);
   RoundEndScreen.prototype.dom = function() { return this.dom_; };
 
 
   var CharadesAppState = {
-    START: 'start',
+    START_GAME: 'start_game',
+    START_ROUND: 'start-round',
     PICK_CLUE: 'pick_clue',
     ACTING: 'acting',
     ACTING_OVER: 'acting_over',
@@ -714,7 +716,7 @@ gapi.hangout.onApiReady.add(function() {
     Disposable.call(this);
     this.mainDiv_ = createElement('div');
     document.body.appendChild(this.mainDiv_);
-    this.state_ = new HangoutSharedData('state', CharadesAppState.START);
+    this.state_ = new HangoutSharedData('state', CharadesAppState.START_GAME);
     this.roundNumber_ = new HangoutSharedData('round-number', 0);
     this.scores_ = new HangoutUserData('score', 0);
     this.lastRoundActed_ = new HangoutUserData('last-round-acted', -1);
@@ -770,13 +772,25 @@ gapi.hangout.onApiReady.add(function() {
     this.showEveryone();
     var screen = new StartScreen();
     this.showScreen_(screen);
-    screen.addListener(this.everyoneReady_.bind(this));
+    screen.addListener(this.gameReady_.bind(this));
   };
-  CharadesApp.prototype.everyoneReady_ = function(playerIds) {
+  CharadesApp.prototype.startRound_ = function() {
+    this.showEveryone();
+    var screen = new StartScreen();
+    this.showScreen_(screen);
+    screen.addListener(this.roundReady_.bind(this));
+  };
+  CharadesApp.prototype.gameReady_ = function(playerIds) {
     // TODO: listen for participant left and abort the game.
     this.setTeams_(playerIds);
     if (this.isMaster_) {
       this.roundNumber_.set(0);
+      this.state_.set(CharadesAppState.PICK_CLUE);
+    }
+  };
+  CharadesApp.prototype.roundReady_ = function() {
+    // TODO: listen for participant left and abort the game.
+    if (this.isMaster_) {
       this.state_.set(CharadesAppState.PICK_CLUE);
     }
   };
@@ -793,7 +807,8 @@ gapi.hangout.onApiReady.add(function() {
     this.opponents_ = this.teams_[this.opponentIndex_];
     this.isTeamCaptain_ = index < 2;
     this.isMaster_ = index === 0;
-    this.numberOfRounds_ = this.teams_[0].length;
+    var ROUNDS_PER_ACTOR = 2;
+    this.numberOfRounds_ = this.teams_[0].length * ROUNDS_PER_ACTOR;
   };
   CharadesApp.prototype.actingTeam_ = function() {
     return this.roundNumber_.value() % 2;
@@ -880,19 +895,31 @@ gapi.hangout.onApiReady.add(function() {
   };
   CharadesApp.prototype.endActing_ = function() {
     if (this.isMaster_) {
-      var actingTeam = this.teams_[this.actingTeam_()];
-      for (var i = 0; i < actingTeam.length; i++) {
-        var player = actingTeam[i];
-        this.scores_.setForParticipant(player, this.scores_.value(player) + 1);
+      if (this.guessed_.value()) {
+        var actingTeam = this.teams_[this.actingTeam_()];
+        for (var i = 0; i < actingTeam.length; i++) {
+          var player = actingTeam[i];
+          this.scores_.setForParticipant(player, this.scores_.value(player) + 1);
+        }
       }
-      this.roundNumber_.addOneShotListener((function(){ this.state_.set(CharadesAppState.ROUND_END); }.bind(this)));
+      this.roundNumber_.addOneShotListener((function(){
+        this.state_.set(CharadesAppState.ROUND_END);
+      }.bind(this)));
       this.roundNumber_.set(this.roundNumber_.value() + 1);
     }
   };
   CharadesApp.prototype.showRoundOver_ = function() {
     this.showEveryone();
-    var screen = new RoundEndScreen(this.scores_, this.isMaster_);
-    screen.addListener((function() { this.state_.set(CharadesAppState.START);}).bind(this));
+    var screen = new RoundEndScreen(
+        this.roundNumber_.value(),
+        (this.actingTeam_() + 1),
+        this.guessed_.value(),
+        this.clue_.value(),
+        this.scores_,
+        this.isMaster_);
+    screen.addListener((function() {
+      this.state_.set(CharadesAppState.START_ROUND);
+    }).bind(this));
     this.showScreen_(screen);
   };
   CharadesApp.prototype.roundEnd_ = function() {
@@ -906,10 +933,10 @@ gapi.hangout.onApiReady.add(function() {
     return this.isPlaying_() && this.roundNumber_.value() > this.numberOfRounds_;
   };
   CharadesApp.prototype.isPlaying_ = function() {
-    return this.state_.value() !== CharadesAppState.START && this.teams_;
+    return this.state_.value() !== CharadesAppState.START_GAME && this.teams_;
   };
   CharadesApp.prototype.showNextScreen_ = function() {
-    if (this.state_.value() === CharadesAppState.START) {
+    if (this.state_.value() === CharadesAppState.START_GAME) {
       this.start_();
       return;
     }
@@ -920,6 +947,9 @@ gapi.hangout.onApiReady.add(function() {
     }
 
     switch (this.state_.value()) {
+    case CharadesAppState.START_ROUND:
+      this.startRound_();
+      break;
     case CharadesAppState.PICK_CLUE:
       this.pickWord_();
       break;
