@@ -642,7 +642,7 @@ gapi.hangout.onApiReady.add(function() {
 
     this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
-    this.dom_ = this.timeRemaining_.dom();
+    this.dom_ = createDialogScreen('guessing-screen', 'You are guessing', [this.timeRemaining_.dom()]);
   }
   mixinClass(GuessingScreen, Screen);
   GuessingScreen.prototype.dom = function() { return this.dom_; };
@@ -955,8 +955,8 @@ gapi.hangout.onApiReady.add(function() {
       // screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
       // screen = new WaitForClueScreen(new DebugValue(gapi.hangout.getParticipantId()));
 
-      screen = new JudgingScreen(new DebugValue(69), new DebugValue('Casablanca'), new DebugValue(false));
-      // screen = new GuessingScreen(this.timer_);
+      // screen = new JudgingScreen(new DebugValue(69), new DebugValue('Casablanca'), new DebugValue(false));
+      screen = new GuessingScreen(new DebugValue(69));
       // screen = new ActingScreen(this.clue_, this.timer_);
 
       // screen = new RoundEndScreen(this.scores_, this.isMaster_);
