@@ -202,6 +202,20 @@ gapi.hangout.onApiReady.add(function() {
       }
     };
   };
+  var getDisplayName = function(participantId) {
+    var name = gapi.hangout.getParticipantById(participantId).person.displayName;
+    if (debugging) {
+      name = name + ' ' + participantId.substr(-4);
+    }
+    return name;
+  };
+
+  var createDialogScreen = function(id, title, contents) {
+    return createVerticalCenteredElement(createElement('div',
+        {'id': id},
+        [createTextNode(title, {'class': 'title'}),
+          createElement('div', {'class': 'contents'}, contents)]));
+  };
 
   // a single data value shared across all clients
   var HangoutSharedData = function(id, opt_initialValue) {
@@ -385,10 +399,7 @@ gapi.hangout.onApiReady.add(function() {
   };
   ReadyList.prototype.addPlayer_ = function(id) {
     // TODO: add player image
-    var name = gapi.hangout.getParticipantById(id).person.displayName;
-    if (debugging) {
-      name = name + ' ' + id.substr(-4);
-    }
+    var name = getDisplayName(id);
     var nameNode = createTextNode(name, {'class': 'player-name'});
     var status = createElement('input',
         {
@@ -500,10 +511,7 @@ gapi.hangout.onApiReady.add(function() {
     readyList.reset();
     readyList.addListener(this.fireListeners_.bind(this));
 
-    this.div_ = createVerticalCenteredElement(createElement(
-        'div',
-        {'id': 'start-screen'},
-        [createTextNode('Let\'s Play Charades!', {'class': 'title'}), readyList.dom()]));
+    this.div_ = createDialogScreen('start-screen', 'Let\'s Play Charades!', [readyList.dom()]);
   };
   mixinClass(StartScreen, Screen);
   StartScreen.prototype.dom = function() { return this.div_; };
@@ -524,24 +532,25 @@ gapi.hangout.onApiReady.add(function() {
     this.onActorChanged_ = this.setMessage_.bind(this);
     this.registerDispose(this.actor_.addListener(this.onActorChanged_));
     this.setMessage_();
+    this.dom_ = createDialogScreen('wait-for-clue-screen', 'Waiting for clue ...', [this.messageNode_]);
   }
   mixinClass(WaitForClueScreen, Screen);
   WaitForClueScreen.prototype.dom = function() {
-    return this.messageNode_;
+    return this.dom_;
   };
   WaitForClueScreen.prototype.message_ = function() {
     if (this.actor_.hasValue()) {
       var actor = this.actor_.value();
       if (isLocalParticipant(actor)) {
-        return 'Waiting for clue. You are acting! Prepare yourself!';
+        return 'You are acting! Prepare yourself!';
       }
-      return 'Waiting for clue. ' + this.actor_.value() + 'prepare to act!';
+      return getDisplayName(this.actor_.value()) + 'prepare to act!';
     } else {
-      return 'Waiting for clue.';
+      return 'Waiting for actor ...';
     }
   };
   WaitForClueScreen.prototype.setMessage_ = function() {
-    this.messageNode_.nodeValue = this.message_();
+    this.messageNode_.textContent = this.message_();
   };
 
   var EnterClueScreen = function(clue) {
@@ -549,24 +558,23 @@ gapi.hangout.onApiReady.add(function() {
     // TODO: add timer?
     // TODO: add list to pick from
 
-    this.message_ = createTextNode('Enter Clue:', {'class': 'title'});
     this.input_ = new TextInput();
+    this.input_.onChange.addListener(this.onChanged_.bind(this));
+
     this.done_ = createButton('Start', {'id': 'enter-clue-button'});
+    this.done_.addEventListener('click', this.fireListeners_.bind(this));
+
     var row = createTableRow([
             this.input_.dom(),
             this.done_]);
+    this.done_.parentElement.style.width = '1px';
     for (var i = 0; i < row.childNodes.length; i++) {
       row.childNodes[i].style.verticalAlign = 'middle';
     }
     var table = createTable([row]);
     table.style.width = '100%';
-    this.done_.parentElement.style.width = '1px';
-    var contents = createElement('div', {'class': 'contents'}, [table]);
-    this.dom_ = createVerticalCenteredElement(createElement('div',
-        {'id': 'enter-clue-screen'},
-        [this.message_, contents]));
-    this.input_.onChange.addListener(this.onChanged_.bind(this));
-    this.done_.addEventListener('click', this.fireListeners_.bind(this));
+
+    this.dom_ = createDialogScreen('enter-clue-screen', 'Enter Clue:', [table]);
     this.clue_ = clue;
   };
   mixinClass(EnterClueScreen, Screen);
@@ -591,10 +599,8 @@ gapi.hangout.onApiReady.add(function() {
     }
     var table = createTable([row]);
     table.style.width = '100%';
-    var contents = createElement('div', {'class': 'contents'}, [table]);
 
-    this.dom_ = createVerticalCenteredElement(createElement('div',
-        {'id': 'watch-enter-clue-screen'}, [this.message_, contents]));
+    this.dom_ = createDialogScreen('watch-enter-clue-screen', 'Current Clue:', [table]);
   };
   mixinClass(WatchEnterClueScreen, Screen);
   WatchEnterClueScreen.prototype.dom = function() { return this.dom_; };
@@ -934,6 +940,9 @@ gapi.hangout.onApiReady.add(function() {
   DebugValue.prototype.value = function() {
     return this.value_;
   };
+  DebugValue.prototype.hasValue = function() {
+    return typeof(this.value_) !== 'undefined';
+  };
   if (debugging) {
     CharadesApp.prototype.showNextScreen_ = function() {
       var screen;
@@ -941,8 +950,8 @@ gapi.hangout.onApiReady.add(function() {
       // TODO screen = new WaitForNewGameScreen();
 
       // screen = new EnterClueScreen(new DebugValue(''));
-      screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
-      // screen = new WaitForClueScreen(this.actor_);
+      // screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
+      screen = new WaitForClueScreen(new DebugValue(gapi.hangout.getParticipantId()));
 
       // screen = new JudgingScreen(this.timer_, this.clue_, this.guessed_);
       // screen = new GuessingScreen(this.timer_);
