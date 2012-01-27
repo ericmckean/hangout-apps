@@ -211,10 +211,11 @@ gapi.hangout.onApiReady.add(function() {
   };
 
   var createDialogScreen = function(id, title, contents) {
-    return createVerticalCenteredElement(createElement('div',
-        {'id': id},
+    var element = createElement('div',
+        {'id': id, 'class': 'screen-contents'},
         [createTextNode(title, {'class': 'title'}),
-          createElement('div', {'class': 'contents'}, contents)]));
+          createElement('div', {'class': 'contents'}, contents)]);
+    return createVerticalCenteredElement(element);
   };
 
   // a single data value shared across all clients
@@ -226,7 +227,7 @@ gapi.hangout.onApiReady.add(function() {
     if (arguments.length >= 2) {
       this.initialValue_ = opt_initialValue;
     }
-    this.callback_ = debugListener(this.onStateChanged_.bind(this), 'SharedData');
+    this.callback_ = debugListener(this.onStateChanged_.bind(this), 'SharedData: ' + id);
     gapi.hangout.data.onStateChanged.add(this.callback_);
     this.onStateChanged_();
   };
@@ -283,7 +284,7 @@ gapi.hangout.onApiReady.add(function() {
     this.id_ = id;
     this.players_ = {};
     this.keyPrefix_ = id + '$';
-    var callback = debugListener(this.onStateChanged_.bind(this), 'UserData');
+    var callback = debugListener(this.onStateChanged_.bind(this), 'UserData: ' + id);
     this.callback_ = callback;
     gapi.hangout.data.onStateChanged.add(callback);
     gapi.hangout.onEnabledParticipantsChanged.add(callback);
@@ -384,7 +385,8 @@ gapi.hangout.onApiReady.add(function() {
   var ReadyList = function(minimumPlayers) {
     EventSource.call(this);
     this.minimumPlayers_ = minimumPlayers;
-    this.div_ = createElement('table', {'class': 'ready-list'});
+    this.div_ = createTable([]);
+    addClass(this.div_, 'ready-list');
     this.readyData_ = new HangoutUserData('PlayerReady');
     this.registerDispose(this.readyData_);
     this.registerDispose(this.readyData_.addListener(this.onDataChanged_.bind(this)));
@@ -487,6 +489,23 @@ gapi.hangout.onApiReady.add(function() {
     }
   };
 
+  var ScoresList = function(scores) {
+    // table, rows & score
+    var rows = [];
+    var participants = scores.players();
+    // TODO: Show only score for this game?
+    // TODO: Sort by team?
+    for (var i = 0; i < participants.length; i++) {
+      rows.push(createTableRow([
+          createTextNode(getDisplayName(participants[i]), {'class': 'player-name'}),
+          createTextNode(scores.value(participants[i]), {'class': 'score'})
+        ]));
+    }
+    this.dom_ = createTable(rows);
+    addClass(this.dom_, 'scores-list');
+  };
+  ScoresList.prototype.dom = function() { return this.dom_; };
+
   var Screen = function() {
     EventSource.call(this);
   };
@@ -507,7 +526,7 @@ gapi.hangout.onApiReady.add(function() {
       minimumPlayers = 1;
     }
     var readyList = new ReadyList(minimumPlayers);
-    this.registerDispose(this.readyList);
+    this.registerDispose(readyList);
     readyList.reset();
     readyList.addListener(this.fireListeners_.bind(this));
 
@@ -666,22 +685,6 @@ gapi.hangout.onApiReady.add(function() {
     this.fireListeners_();
   }
 
-  var ScoresList = function(scores) {
-    // table, rows & score
-    var rows = [];
-    var participants = scores.players();
-    // TODO: Show only score for this game?
-    // TODO: Sort by team?
-    for (var i = 0; i < participants.length; i++) {
-      rows.push(createTableRow([
-          createTextNode(participants[i]),
-          createTextNode(scores.value(participants[i]))
-        ]));
-    }
-    this.dom_ = createTable(rows);
-  };
-  ScoresList.prototype.dom = function() { return this.dom_; };
-
   var RoundEndScreen = function(scores, isMaster) {
     Screen.call(this);
 
@@ -693,7 +696,7 @@ gapi.hangout.onApiReady.add(function() {
       button.addEventListener('click', this.fireListeners_.bind(this));
       elements.push(button);
     }
-    var div_ = createElement('div', elements);
+    this.dom_ = createDialogScreen('round-end-screen', 'Round Over', elements);
   };
   mixinClass(RoundEndScreen, Screen);
   RoundEndScreen.prototype.dom = function() { return this.dom_; };
@@ -814,6 +817,7 @@ gapi.hangout.onApiReady.add(function() {
       this.actor_.set(nextActor);
       this.lastRoundActed_.setForParticipant(nextActor, this.roundNumber_.value());
     }
+    this.showWaitForClueScreen_();
   }
   CharadesApp.prototype.showWaitForClueScreen_ = function() {
     this.showTeammates();
@@ -945,10 +949,24 @@ gapi.hangout.onApiReady.add(function() {
   DebugValue.prototype.hasValue = function() {
     return typeof(this.value_) !== 'undefined';
   };
-  if (debugging) {
+
+  var DebugUserValue = function(values) {
+    this.values_ = values;
+  };
+  DebugUserValue.prototype.players = function() {
+    var result = [];
+    for (var player in this.values_) {
+      result.push(player);
+    }
+    return result;
+  };
+  DebugUserValue.prototype.value = function(player) {
+    return this.values_[player];
+  };
+  if (false) {
     CharadesApp.prototype.showNextScreen_ = function() {
       var screen;
-      // screen = new StartScreen();
+      screen = new StartScreen();
       // TODO screen = new WaitForNewGameScreen();
 
       // screen = new EnterClueScreen(new DebugValue(''));
@@ -957,9 +975,15 @@ gapi.hangout.onApiReady.add(function() {
 
       // screen = new JudgingScreen(new DebugValue(42), new DebugValue('Casablanca'), new DebugValue(false));
       // screen = new GuessingScreen(new DebugValue(42));
-      screen = new ActingScreen(new DebugValue('Bill and Ted\'s Excellent Adventure'), new DebugValue(42));
+      // screen = new ActingScreen(new DebugValue('Bill and Ted\'s Excellent Adventure'), new DebugValue(42));
 
-      // screen = new RoundEndScreen(this.scores_, this.isMaster_);
+      var scores = {};
+      var participants = gapi.hangout.getParticipants();
+      for (var i = 0; i < participants.length; i++) {
+        scores[participants[i].id] = i % 3;
+      }
+      // screen = new RoundEndScreen(new DebugUserValue(scores), false);
+
       screen.addListener(function() {
         if (screen) {
           screen.dispose();
