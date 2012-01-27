@@ -41,7 +41,7 @@
   
 </div>
 
-<div id="sound-broadcast" style="width:243px;height:44px;">
+<div id="sound-broadcast" style="width:243px;height:44px;border-bottom:1px solid #a0adbb">
 </div>
 
 <div id="participant-list" style="height:200px;scroll:auto">
