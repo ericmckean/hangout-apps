@@ -57,6 +57,9 @@
   
 </div>
 
+<div id="sound-broadcast" style="width:243px;height:44px;">
+</div>
+
 <div id="participant-list" style="height:200px;scroll:auto">
 </div>
 
