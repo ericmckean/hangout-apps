@@ -114,6 +114,11 @@ gapi.hangout.onApiReady.add(function() {
 
     return result;
   };
+  var createInlineElement = function(child) {
+    var result = createElement('div', [child]);
+    result.style.display = 'inline';
+    return result;
+  };
   var createVerticalCenteredElement = function(child) {
     addClass(child, 'vertical-center');
     return createElement('div', {}, [
@@ -131,14 +136,28 @@ gapi.hangout.onApiReady.add(function() {
     var result = createElement('input', attributes);
     result.type = 'text';
     result.value = value || '';
+    addClass(result, 'text-input');
     return result;
   };
   var createButton = function(text, attributes) {
-    var result = createElement('input', attributes);
-    result.type = 'button';
-    result.value = text;
+    attributes = attributes || {};
+    var result = createElement('div', attributes, [document.createTextNode(text)]);
+    addClass(result, 'button');
     return result;
   };
+  var createTableCell = function(child) {
+    return createElement('div', {'class': 'table-cell'}, [child]);
+  };
+  var createTableRow = function(elements) {
+    var cells = [];
+    for (var i = 0; i < elements.length; i++) {
+      cells.push(createTableCell(elements[i]));
+    }
+    return createElement('div', {'class': 'table-row'}, cells);
+  };
+  var createTable = function(rows) {
+    return createElement('div', {'class': 'table'}, rows);
+  }
   var removeElement = function(element) {
     if (element && element.parentElement) {
       element.parentElement.removeChild(element);
@@ -345,7 +364,7 @@ gapi.hangout.onApiReady.add(function() {
   mixinClass(SharedTextNode, Disposable);
   SharedTextNode.prototype.dom = function() { return this.dom_; };
   SharedTextNode.prototype.onDataChanged_ = function() {
-    this.dom_.value = this.data_.value();
+    this.dom_.textContent = this.data_.value();
   };
 
   var ReadyList = function(minimumPlayers) {
@@ -376,7 +395,7 @@ gapi.hangout.onApiReady.add(function() {
           'class': 'ready-checkbox',
           type: 'checkbox',
           disabled: true});
-    var row = createElement('tr', [createElement('td', [nameNode]), createElement('td', [status])]);
+    var row = createTableRow([nameNode, status]);
 
     this.players_[id] = {row: row, status: status};
     this.setPlayerChecked_(id);
@@ -530,10 +549,22 @@ gapi.hangout.onApiReady.add(function() {
     // TODO: add timer?
     // TODO: add list to pick from
 
-    this.message_ = createTextNode('Enter Clue:');
+    this.message_ = createTextNode('Enter Clue:', {'class': 'title'});
     this.input_ = new TextInput();
-    this.done_ = createButton('Start!');
-    this.dom_ = createElement('div', [this.message_, this.input_.dom(), this.done_]);
+    this.done_ = createButton('Start', {'id': 'enter-clue-button'});
+    var row = createTableRow([
+            this.input_.dom(),
+            this.done_]);
+    for (var i = 0; i < row.childNodes.length; i++) {
+      row.childNodes[i].style.verticalAlign = 'middle';
+    }
+    var table = createTable([row]);
+    table.style.width = '100%';
+    this.done_.parentElement.style.width = '1px';
+    var contents = createElement('div', {'class': 'contents'}, [table]);
+    this.dom_ = createVerticalCenteredElement(createElement('div',
+        {'id': 'enter-clue-screen'},
+        [this.message_, contents]));
     this.input_.onChange.addListener(this.onChanged_.bind(this));
     this.done_.addEventListener('click', this.fireListeners_.bind(this));
     this.clue_ = clue;
@@ -547,10 +578,23 @@ gapi.hangout.onApiReady.add(function() {
   var WatchEnterClueScreen = function(clue) {
     Screen.call(this);
 
-    this.message_ = createTextNode('Current Clue:');
+    this.message_ = createTextNode('Current Clue:', {'class': 'title'});
+
     this.clue_ = new SharedTextNode(clue);
+    addClass(this.clue_.dom(), 'text-input');
+    this.clue_.dom().style.display = 'block';
     this.registerDispose(this.clue_);
-    this.dom_ = createElement('div', [this.message_, this.clue_.dom()]);
+
+    var row = createTableRow([this.clue_.dom()]);
+    for (var i = 0; i < row.childNodes.length; i++) {
+      row.childNodes[i].style.verticalAlign = 'middle';
+    }
+    var table = createTable([row]);
+    table.style.width = '100%';
+    var contents = createElement('div', {'class': 'contents'}, [table]);
+
+    this.dom_ = createVerticalCenteredElement(createElement('div',
+        {'id': 'watch-enter-clue-screen'}, [this.message_, contents]));
   };
   mixinClass(WatchEnterClueScreen, Screen);
   WatchEnterClueScreen.prototype.dom = function() { return this.dom_; };
@@ -622,12 +666,12 @@ gapi.hangout.onApiReady.add(function() {
     // TODO: Show only score for this game?
     // TODO: Sort by team?
     for (var i = 0; i < participants.length; i++) {
-      rows.push(createElement('tr', [
+      rows.push(createTableRow([
           createTextNode(participants[i]),
           createTextNode(scores.value(participants[i]))
         ]));
     }
-    this.dom_ = createElement('table', rows);
+    this.dom_ = createTable(rows);
   };
   ScoresList.prototype.dom = function() { return this.dom_; };
 
@@ -879,14 +923,25 @@ gapi.hangout.onApiReady.add(function() {
       break;
     }
   };
+  var DebugValue = function(initialValue) {
+    EventSource.call(this);
+    this.value_ = initialValue;
+  };
+  mixinClass(DebugValue, EventSource);
+  DebugValue.prototype.set = function(value) {
+    this.value_ = value;
+  };
+  DebugValue.prototype.value = function() {
+    return this.value_;
+  };
   if (debugging) {
     CharadesApp.prototype.showNextScreen_ = function() {
       var screen;
-      screen = new StartScreen();
-      // screen = new WaitForNewGameScreen();
+      // screen = new StartScreen();
+      // TODO screen = new WaitForNewGameScreen();
 
-      // screen = new WatchEnterClueScreen(this.clue_);
-      // screen = new EnterClueScreen(this.clue_);
+      // screen = new EnterClueScreen(new DebugValue(''));
+      screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
       // screen = new WaitForClueScreen(this.actor_);
 
       // screen = new JudgingScreen(this.timer_, this.clue_, this.guessed_);
@@ -894,7 +949,7 @@ gapi.hangout.onApiReady.add(function() {
       // screen = new ActingScreen(this.clue_, this.timer_);
 
       // screen = new RoundEndScreen(this.scores_, this.isMaster_);
-      screen.addListener(function() { alert('Screen complete!'); });
+      screen.addListener(function() { debugger; alert('Screen complete!'); });
       this.showScreen_(screen);
     }
   }
