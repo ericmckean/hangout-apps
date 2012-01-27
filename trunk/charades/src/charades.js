@@ -90,7 +90,10 @@ gapi.hangout.onApiReady.add(function() {
   };
 
   // DOM helpers
-  var createTextNode = document.createTextNode.bind(document);
+  var addClass = function(element, className) {
+    // TODO: use jquery
+    element.className += ' ' + className;
+  };
   var createElement = function(tag, attributes, children) {
     if (arguments.length == 2 && attributes instanceof Array) {
       children = attributes;
@@ -110,6 +113,19 @@ gapi.hangout.onApiReady.add(function() {
     }
 
     return result;
+  };
+  var createVerticalCenteredElement = function(child) {
+    addClass(child, 'vertical-center');
+    return createElement('div', {}, [
+        createElement('div', {'class': 'vertical-center-marker'}),
+        child])
+  };
+  var createTextNode = function(text, opt_attributes) {
+    if (arguments.length > 1) {
+      return createElement('span', opt_attributes, [document.createTextNode(text)]);
+    } else {
+      return createElement('span', [document.createTextNode(text)]);
+    }
   }
   var createTextInput = function(value, attributes) {
     var result = createElement('input', attributes);
@@ -335,7 +351,7 @@ gapi.hangout.onApiReady.add(function() {
   var ReadyList = function(minimumPlayers) {
     EventSource.call(this);
     this.minimumPlayers_ = minimumPlayers;
-    this.div_ = createElement('table');
+    this.div_ = createElement('table', {'class': 'ready-list'});
     this.readyData_ = new HangoutUserData('PlayerReady');
     this.registerDispose(this.readyData_);
     this.registerDispose(this.readyData_.addListener(this.onDataChanged_.bind(this)));
@@ -349,15 +365,18 @@ gapi.hangout.onApiReady.add(function() {
     this.readyData_.set(false);
   };
   ReadyList.prototype.addPlayer_ = function(id) {
+    // TODO: add player image
     var name = gapi.hangout.getParticipantById(id).person.displayName;
     if (debugging) {
       name = name + ' ' + id.substr(-4);
     }
-    var nameNode = createTextNode(name);
-    var status = createElement('input');
-    status.type = 'checkbox';
-    status.disabled = true;
-    var row = createElement('tr', [nameNode, status]);
+    var nameNode = createTextNode(name, {'class': 'player-name'});
+    var status = createElement('input',
+        {
+          'class': 'ready-checkbox',
+          type: 'checkbox',
+          disabled: true});
+    var row = createElement('tr', [createElement('td', [nameNode]), createElement('td', [status])]);
 
     this.players_[id] = {row: row, status: status};
     this.setPlayerChecked_(id);
@@ -457,13 +476,18 @@ gapi.hangout.onApiReady.add(function() {
     if (debugging) {
       minimumPlayers = 1;
     }
-    this.readyList_ = new ReadyList(minimumPlayers);
-    this.registerDispose(this.readyList_);
-    this.readyList_.reset();
-    this.readyList_.addListener(this.fireListeners_.bind(this));
+    var readyList = new ReadyList(minimumPlayers);
+    this.registerDispose(this.readyList);
+    readyList.reset();
+    readyList.addListener(this.fireListeners_.bind(this));
+
+    this.div_ = createVerticalCenteredElement(createElement(
+        'div',
+        {'id': 'start-screen'},
+        [createTextNode('Let\'s Play Charades!', {'class': 'title'}), readyList.dom()]));
   };
   mixinClass(StartScreen, Screen);
-  StartScreen.prototype.dom = function() { return this.readyList_.dom(); };
+  StartScreen.prototype.dom = function() { return this.div_; };
 
   var WaitForNewGameScreen = function() {
     Screen.call(this);
@@ -858,8 +882,8 @@ gapi.hangout.onApiReady.add(function() {
   if (debugging) {
     CharadesApp.prototype.showNextScreen_ = function() {
       var screen;
-      // screen = new StartScreen();
-      screen = new WaitForNewGameScreen();
+      screen = new StartScreen();
+      // screen = new WaitForNewGameScreen();
 
       // screen = new WatchEnterClueScreen(this.clue_);
       // screen = new EnterClueScreen(this.clue_);
