@@ -610,15 +610,14 @@ gapi.hangout.onApiReady.add(function() {
 
     gapi.hangout.av.setMicrophoneMute(true);
 
-    this.message_ = createTextNode('Current Clue:');
-    this.clue_ = createTextNode(clue.value());
     this.startTime_ = Date.now();
     this.timer_ = timer;
     this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
-    this.registerDispose(window.setInterval(this.onTimerTick_.bind(this), 100));
+    this.registerDispose(setInterval(this.onTimerTick_.bind(this), 200));
     this.onTimerTick_();
-    this.dom_ = createElement('div', [this.message_, this.clue_, this.timeRemaining_.dom()]);
+    this.dom_ = createDialogScreen('acting-screen', 'You are Acting: ' + clue.value(),
+        [this.timeRemaining_.dom()]);
   };
   mixinClass(ActingScreen, Screen);
   ActingScreen.prototype.dom = function() { return this.dom_; };
@@ -628,12 +627,12 @@ gapi.hangout.onApiReady.add(function() {
   };
   ActingScreen.prototype.onTimerTick_ = function() {
     var elapsedTime = Date.now() - this.startTime_;
-    var TWO_MINUTES = 120000;
-    var remaining = elapsedTime - TWO_MINUTES;
+    var TWO_MINUTES = debugging ? 2000 : 120000;
+    var remaining = TWO_MINUTES - elapsedTime;
     if (remaining <= 0) {
       this.fireListeners_();
     } else {
-      this.timer_.set('Time Remaining: ' + (remaining * 1000).toFixed(1));
+      this.timer_.set((remaining / 1000).toFixed(1));
     }
   };
 
@@ -938,6 +937,7 @@ gapi.hangout.onApiReady.add(function() {
   mixinClass(DebugValue, EventSource);
   DebugValue.prototype.set = function(value) {
     this.value_ = value;
+    this.fireListeners_(value);
   };
   DebugValue.prototype.value = function() {
     return this.value_;
@@ -955,12 +955,19 @@ gapi.hangout.onApiReady.add(function() {
       // screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
       // screen = new WaitForClueScreen(new DebugValue(gapi.hangout.getParticipantId()));
 
-      // screen = new JudgingScreen(new DebugValue(69), new DebugValue('Casablanca'), new DebugValue(false));
-      screen = new GuessingScreen(new DebugValue(69));
-      // screen = new ActingScreen(this.clue_, this.timer_);
+      // screen = new JudgingScreen(new DebugValue(42), new DebugValue('Casablanca'), new DebugValue(false));
+      // screen = new GuessingScreen(new DebugValue(42));
+      screen = new ActingScreen(new DebugValue('Bill and Ted\'s Excellent Adventure'), new DebugValue(42));
 
       // screen = new RoundEndScreen(this.scores_, this.isMaster_);
-      screen.addListener(function() { debugger; alert('Screen complete!'); });
+      screen.addListener(function() {
+        if (screen) {
+          screen.dispose();
+          screen = undefined;
+        }
+        debugger;
+        alert('Screen complete!');
+      });
       this.showScreen_(screen);
     }
   }
