@@ -650,12 +650,14 @@ gapi.hangout.onApiReady.add(function() {
   var JudgingScreen = function(timer, clue, guessed) {
     Screen.call(this);
 
+    // TODO: time remaining display.
+    // TODO: actor display.
     this.timeRemaining_ = new SharedTextNode(timer);
     this.registerDispose(this.timeRemaining_);
-    this.message_ = createTextNode('Current clue is: ' + clue.value());
     this.correctButton_ = createButton('Opponents Guessed Correct!');
     this.correctButton_.addEventListener('click', this.onGuessed_.bind(this));
-    this.dom_ = createElement('div', [this.message_, this.correctButton_, this.timeRemaining_.dom()]);
+    this.dom_ = createDialogScreen('judging-screen', 'You are Judging: ' + clue.value(),
+        [this.timeRemaining_.dom(), this.correctButton_]);
     this.guessed_ = guessed;
   }
   mixinClass(JudgingScreen, Screen);
@@ -951,9 +953,9 @@ gapi.hangout.onApiReady.add(function() {
 
       // screen = new EnterClueScreen(new DebugValue(''));
       // screen = new WatchEnterClueScreen(new DebugValue('Current Clue'));
-      screen = new WaitForClueScreen(new DebugValue(gapi.hangout.getParticipantId()));
+      // screen = new WaitForClueScreen(new DebugValue(gapi.hangout.getParticipantId()));
 
-      // screen = new JudgingScreen(this.timer_, this.clue_, this.guessed_);
+      screen = new JudgingScreen(new DebugValue(69), new DebugValue('Casablanca'), new DebugValue(false));
       // screen = new GuessingScreen(this.timer_);
       // screen = new ActingScreen(this.clue_, this.timer_);
 
