@@ -55,25 +55,24 @@ function handlePrelight(name)
 	    $('#' + name + '-prelight-img').show();
 }
 
-// array of sound resources that we may play
-var gSentSounds = new Array();
-gSentSounds['typing'] = gapi.hangout.av.effects.createAudioResource(
-    'http://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
-gSentSounds['whistle'] = gapi.hangout.av.effects.createAudioResource(
-    'http://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
-
-
 // array of sound resources that we may play upon message receipt
-var gAlertSounds = new Array();
-gAlertSounds['typing'] = gapi.hangout.av.effects.createAudioResource(
-    'http://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
-gAlertSounds['whistle'] = gapi.hangout.av.effects.createAudioResource(
-    'http://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
+var gSoundEffects = new Array();
+gSoundEffects['typing'] = gapi.hangout.av.effects.createAudioResource(
+    'https://hangout-apps.googlecode.com/svn/trunk/fx/sounds/typing.wav').createSound();
+gSoundEffects['goodday'] = gapi.hangout.av.effects.createAudioResource(
+    'http://hangoutmediastarter.appspot.com/static/goodday.wav').createSound();
+gSoundEffects['whistle'] = gapi.hangout.av.effects.createAudioResource(
+    'https://hangout-apps.googlecode.com/svn/fx/sounds/whistle.wav').createSound();
+gSoundEffects['applause'] = gapi.hangout.av.effects.createAudioResource(
+    'https://hangout-apps.googlecode.com/svn/fx/sounds/applause.wav').createSound();
 
 // simple function to play one of the labeled alert sounds
-function playgAlertSounds(whichAlert) 
+function playSound(whichAlert) 
 {
-   if(whichAlert in gAlertSounds) gAlertSounds[whichAlert].play({loop: false});
+   if(whichAlert in gSoundEffects)
+   {
+       gSoundEffects[whichAlert].play({loop: false});
+   }
 }
 
 // For removing every overlay
@@ -186,7 +185,7 @@ function onStateChanged(event)
                         $('#messageDisplay').append($('<br />'), replyButton);
                         $('#messageDisplay').show();                    
                         gapi.hangout.data.clearValue(key);
-                        playgAlertSounds(splitKey[3]);
+                        playSound(splitKey[3]);
                         gapi.hangout.layout.displayNotice(message, true);
                     }
                     // handle gifts
@@ -225,7 +224,7 @@ function onStateChanged(event)
                         $('#giftDisplay').append($('<br />'), acceptButton, rejectButton);
                         $('#giftDisplay').show();                    
                         gapi.hangout.data.clearValue(key);
-                        playgAlertSounds(splitKey[3]);
+                        playSound(splitKey[3]);
                     }
                     else if(messageType === "gift-accepted")
 		    {
@@ -235,7 +234,7 @@ function onStateChanged(event)
  
                         // display the message and remove it from the state object -- also play any alert sound requested
                         gapi.hangout.data.clearValue(key);
-                        playgAlertSounds(splitKey[3]);
+                        playSound(splitKey[3]);
                         gapi.hangout.layout.displayNotice(message, true);
                     }
                     else if(messageType === "gift-rejected")
@@ -246,8 +245,16 @@ function onStateChanged(event)
  
                         // display the message and remove it from the state object -- also play any alert sound requested
                         gapi.hangout.data.clearValue(key);
-                        playgAlertSounds(splitKey[3]);
+                        playSound(splitKey[3]);
                         gapi.hangout.layout.displayNotice(message, true);
+                    }
+                    else if(messageType === "broadcast-sound")
+		    {
+                        var sound = state[key];
+
+			// remove the message from the state and play the sound
+                        gapi.hangout.data.clearValue(key);
+                        playSound(sound);
                     }
                 }
             }
@@ -295,6 +302,7 @@ function sendGift(overlay, alertSound)
      gapi.hangout.layout.displayNotice(message, false);
 }
 
+
 // sends a targeted overlay by adding a message entry to the state
 // the format of the key is:
 // recipient-id:gift-accepted:sender-id:alert-sound-tag
@@ -306,6 +314,27 @@ function sendGiftResponse(overlay, alertSound, status)
     var key = gRecipient + ":gift-" + status + ":" + gMyId + ":" + alertSound;
     state = {};
     state[key] = overlay;
+    gapi.hangout.data.submitDelta(state);
+}
+
+function sendSound(sound, recipient)
+{
+    if(!recipient) recipient = gRecipient;
+    var key = recipient + ":sound:" + gMyId;
+    state = {};
+    state[key] = sound;
+    gapi.hangout.data.submitDelta(state);
+}
+
+function broadcastSound(sound)
+{
+    var state = {};
+    for (var i = 0, iLen = gEnabledParticipants.length; i < iLen; ++i) 
+    {
+        var p = gEnabledParticipants[i];
+        var key = p.id + ":broadcast-sound:" + gMyId;
+        state[key] = sound;
+    }
     gapi.hangout.data.submitDelta(state);
 }
 
@@ -429,14 +458,28 @@ function init()
                 height: 240,
                 closeOnEscape: true
             });
+
     });
+
+    // get the main div container for the app
+    gContainer = $('#participant-list');
+
+    var soundDiv = $('#sound-broadcast');
+    var soundSelect = $('<select />').attr({'id': 'broadcast-sound-select'});
+    soundSelect.append($('<option />').attr({'value' : 'goodday'}).text('Good Day'));
+    soundSelect.append($('<option />').attr({'value' : 'typing'}).text('Typing'));
+    var playButton = $('<button />')
+	     	    .html('<img src="https://hangout-apps.googlecode.com/svn/trunk/fx/css/speaker-icon.png">')
+	       	    .button()
+                    .click(function() {
+      		        broadcastSound($('#broadcast-sound-select :selected').val());
+                        return false;
+                    });
+    soundDiv.append(soundSelect, playButton);
 
     gapi.hangout.onApiReady.add(function(eventObj) {
         if(eventObj.isApiReady) 
         {
-            // get the main div container for the app
-            gContainer = $('#participant-list');
-			
             // grab my participant ID and register some event handlers
             gMyId = gapi.hangout.getParticipantId();
             gapi.hangout.data.onStateChanged.add(onStateChanged);
