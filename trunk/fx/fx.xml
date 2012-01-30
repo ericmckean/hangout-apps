@@ -8,22 +8,6 @@
 	<Content type="html"><![CDATA[     
 
 <html>
-<style type="text/css">
-<!--
-.button {
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
-  background: -moz-linear-gradient(top, #fff, #ddd);  
-  border: 1px solid #bbb;
-}
-
-.button:active {
-	background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333));
-	background: -moz-linear-gradient(bottom, #ddd, #aaa); }
-
--->
-</style>
 <head>
 	<title>Hangout FX App</title>
 	    <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
@@ -57,7 +41,10 @@
   
 </div>
 
-<div id="participant-list" style="height:200px;scroll:auto">
+<div id="sound-broadcast" style="width:243px;height:44px;border-bottom:1px solid #a0adbb">
+</div>
+
+<div id="participant-list" style="height:150px;scroll:auto">
 </div>
 
 <div id="messageDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
@@ -68,7 +55,7 @@
 
 </div>
 
-<script src="https://hangout-apps.googlecode.com/svn/trunk/fx/src/fx.js"></script>
+<script src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/src/fx.js"></script>
 
 ]]>
 </Content>
