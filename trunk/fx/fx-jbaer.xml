@@ -46,7 +46,7 @@
   
 </div>
 
-<div id="sound-broadcast1" style="width:243px;height:44px;border-bottom:1px solid #a0adbb">
+<div id="sound-broadcast1" style="width:243px;height:34px;border-bottom:1px solid #a0adbb">
 		<span class="kd-button kd-menubutton kd-select">
 			<span class="label">Good Day</span><span class="kd-disclosureindicator"></span>
 			<ul class="kd-menulist">
@@ -57,7 +57,7 @@
 		<a class="kd-button small"><img src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/speaker-icon.png" width="21" height="21" alt="Iconlist"></a>
 </div>
 
-<div id="sound-broadcast" style="width:243px;height:44px;border-bottom:1px solid #a0adbb">
+<div id="sound-broadcast" style="width:243px;height:34px;border-bottom:1px solid #a0adbb">
 </div>
 
 <div id="participant-list" style="height:150px;scroll:auto">
