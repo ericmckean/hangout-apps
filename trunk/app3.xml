@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="my-room" height="500" width="400">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <html>
+      <head>
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link href="http://www.corp.google.com/~chloeh/no_crawl/ha-apps/google-hangouts-apps/ib/css/ib.css" rel="stylesheet" type="text/css"/>
+      <script type="text/javascript" src="//www.google.com/jsapi"></script> 
+      <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
+      <script type="text/javascript">google.load("jquery", "1.4.1");</script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+      <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+      <script type="text/javascript" src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1"></script>
+      <script type="text/javascript" src="http://www.corp.google.com/~chloeh/no_crawl/ha-apps/google-hangouts-apps/ib/src/ib.js"></script>
+      <style type="text/css">
+	 #bgdiv {
+	 position:fixed;
+	 top:-50%;
+	 left:-50%;
+	 width:200%;
+	 height:200%;
+	 z-index: -100;
+	 }
+
+	 #bgdiv img {
+	 position:absolute;
+	 top:0;
+	 left:0;
+	 right:0;
+	 bottom:0;
+	 margin:auto;
+	 min-width:50%;
+	 min-height:50%;
+	 }
+       </style>
+ <script>
+ $(document).ready(function() {
+ $("#tabs").tabs();
+ });
+ </script>
+</head>
+
+<body style="font-size:80%;">
+<div id="bgdiv">
+<img src="http://2.bp.blogspot.com/_UXuoAg_ZSMU/S-bDgjOPtNI/AAAAAAAAAtI/jNdCdyJ1JbM/s1600/Evolution+-+1440x900.jpg" id="bg">
+</div>
+<div id="app-container" style="width:249px; position:fixed; top:0; left:0;">
+<div id="tabs">
+<ul>
+ <li><a href="#place"><span>Places</span></a></li>
+ <li><a href="#school"><span>Schools</span></a></li>
+ <li><a href="#work"><span>Work</span></a></li>
+ </ul>
+ <div id="place">
+   <div id="pi">
+    </div>
+    <div id="pt">
+    </div>
+ </div>
+ <div id="school">
+ </div>
+ <div id="work">
+ </div>
+</div>
+</div>
+      
+
+      </html>
+  ]]>
+  </Content>
+</Module>
