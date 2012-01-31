@@ -17,38 +17,7 @@
       <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
       <script type="text/javascript" src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1"></script>
       <script type="text/javascript" src="http://www.corp.google.com/~chloeh/no_crawl/ha-apps/google-hangouts-apps/ib/src/ib.js"></script>
- <script>
- $(document).ready(function() {
- $("#tabs").tabs();
- });
- </script>
-</head>
-
-<body style="font-size:80%;">
-<div id="bgdiv">
-<img src="http://2.bp.blogspot.com/_UXuoAg_ZSMU/S-bDgjOPtNI/AAAAAAAAAtI/jNdCdyJ1JbM/s1600/Evolution+-+1440x900.jpg" id="bg">
-</div>
-<div id="app-container" style="width:249px; position:fixed; top:0; left:0;">
-<div id="tabs">
-<ul>
- <li><a href="#place"><span>Places</span></a></li>
- <li><a href="#school"><span>Schools</span></a></li>
- <li><a href="#work"><span>Work</span></a></li>
- </ul>
- <div id="place">
-   <div id="pi">
-    </div>
-    <div id="pt">
-    </div>
- </div>
- <div id="school">
- </div>
- <div id="work">
- </div>
-</div>
-</div>
-      
-
+      </head>
       </html>
   ]]>
   </Content>
