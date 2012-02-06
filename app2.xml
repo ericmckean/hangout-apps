@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-  <ModulePrefs title="App2">
-    <Require feature="rpc"/>
-    <Require feature="views"/>
-  </ModulePrefs>
+  <ModulePrefs title="Charades Free For All">
+		<Require feature="rpc" />
+		<Require feature="views" />\
+		<Require feature="locked-domain" /> \
+	</ModulePrefs>
   <Content type="html">
     <![CDATA[
+      <!DOCTYPE html>
       <head>
-        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/style.css" />
-        <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1"></script>
-        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/charades.js"></script>
+        <title>Charades Free For All</title>
+        <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/ffa/src/style.css" />
+
+        <script src="http://robocomp.corp.google.com/s/me.js">
+          goog.require('goog.events');
+          // goog.require('');
+        </script>
+        <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/ffa/src/ffa.js"></script>
       </head>
+      <body>
+        <p>first para</p>
+        <p>second para</p>
+      </body>
     ]]>
   </Content>
 </Module>
