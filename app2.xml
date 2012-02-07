@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-  <ModulePrefs title="Charades Free For All">
-		<Require feature="rpc" />
-		<Require feature="views" />\
-		<Require feature="locked-domain" /> \
-	</ModulePrefs>
-  <Content type="html">
-    <![CDATA[
-      <!DOCTYPE html>
-      <head>
-        <title>Charades Free For All</title>
-        <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
-        <script src="http://robocomp.corp.google.com/s/me.js"></script>
-        <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
-        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/ffa/src/ffa.js"></script>
-      </head>
-    ]]>
-  </Content>
+    <ModulePrefs title="Charades Free For All">
+        <Require feature="rpc" />
+        <Require feature="views" />\
+        <Require feature="locked-domain" /> \
+    </ModulePrefs>
+    <Content type="html">
+        <![CDATA[
+          <head>
+            <title>Charades Free For All</title>
+            <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
+            <script src="http://robocomp.corp.google.com/s/me.js"></script>
+            <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
+            <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/ffa/src/ffa.js"></script>
+          </head>
+          <body>
+            blah
+          </body>
+        ]]>
+    </Content>
 </Module>
