@@ -11,19 +11,10 @@
       <head>
         <title>Charades Free For All</title>
         <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
-        <script src="http://robocomp.corp.google.com/s/me.js">
-          goog.require('goog.events');
-          goog.require('goog.dom');
-        </script>
+        <script src="http://robocomp.corp.google.com/s/me.js"/>
         <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/ffa/src/ffa.js"></script>
       </head>
-      <body>
-        <div id="foo">
-            <p>first para</p>
-            <p>second para</p>
-        </div>
-      </body>
     ]]>
   </Content>
 </Module>
