@@ -33,20 +33,7 @@
 
 <div id="app-container" style="width:243px; border:1px solid #a0adbb">
 
-<div id="overlay-controls" style="background:url(https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/fx-overlays-button-bar.png);width:243px;height:44px;">
-  <div id="hat-button" style="position:absolute;left:8px;top:3px;width:54px;height:42px;cursor:pointer" onclick="selectOverlayButton('hat')" onmouseover="handlePrelight('hat')" onmouseout="handlePrelight()">
-    <img id="hat-prelight-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/hat-prelight.png">
-    <img id="hat-button-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/hat-button.png">
-  </div>
-  <div id="monocle-button" style="position:absolute;left:66px;top:3px;width:54px;height:42px;cursor:pointer;" onclick="selectOverlayButton('monocle')" onmouseover="handlePrelight('monocle')" onmouseout="handlePrelight()">
-    <img id="monocle-prelight-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/monocle-prelight.png">
-    <img id="monocle-button-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/monocle-button.png">
-  </div>
-  <div id="stache-button" style="position:absolute;left:124px;top:3px;width:54px;height:42px;cursor:pointer;" onclick="selectOverlayButton('stache')" onmouseover="handlePrelight('stache')" onmouseout="handlePrelight()">
-    <img id="stache-prelight-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/stache-prelight.png">
-    <img id="stache-button-img" style="display:none" src="https://google-hangouts-apps.googlecode.com/svn/trunk/fx/css/stache-button.png">
-  </div>
-  
+<div id="overlay-controls" style="width:243px;height:34px;border-bottom:1px solid #a0adbb">
 </div>
 
 <div id="sound-broadcast" style="width:243px;height:34px;border-bottom:1px solid #a0adbb">
