@@ -37,7 +37,7 @@
 Effects
 </div>
 
-<div id="effects-list" style="height:100%; padding-left:10px">
+<div id="effects-list" class="scrollBarInner" style="height:100%; padding-left:10px">
 
 </div>
 
