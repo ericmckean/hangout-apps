@@ -21,13 +21,13 @@
 <style>
 <!--
 .close-button img {
-	opacity: 0.55;
+	opacity: 0.75;
 }
 .close-button.selected img {
-	opacity: 0.9;
+	opacity: 1.0;
 }
 .close-button:hover img {
-	opacity: 0.72;
+	opacity: 1.0;
 }
 .close-button:active img {
 	opacity: 1.0;
