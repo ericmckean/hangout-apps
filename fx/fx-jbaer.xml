@@ -31,8 +31,15 @@
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
 
 
-<div id="app-container" style="width:243px; border:1px solid #a0adbb">
+<div id="app-container" style="width:243px; background-color:#33333; color:#ffffff">
 
+<span style="font-size:16px">Effects</span>
+
+<div id="effects-list" style="height:100%">
+
+</div>
+
+<!--
 <div id="overlay-controls" style="width:239px;padding:2px;height:31px;border-bottom:1px solid #a0adbb">
 </div>
 
@@ -47,6 +54,7 @@
 
 <div id="giftDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
 </div>
+-->
 
 </div>
 
