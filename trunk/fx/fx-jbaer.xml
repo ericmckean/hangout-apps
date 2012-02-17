@@ -31,7 +31,7 @@
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
 
 
-<div id="app-container" style="width:243px; background-color:#333333; color:#dddddd; height:100%">
+<div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:243px; background-color:#333333; color:#dddddd;">
 
 <div style="font-size:16px; padding:10px; border-bottom:1px solid #7c7c7c">
 Effects
