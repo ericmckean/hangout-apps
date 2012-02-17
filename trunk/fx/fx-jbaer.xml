@@ -72,7 +72,7 @@
 	background-image: -o-linear-gradient(top,#858585,#f3f3f3);
 	background-image: linear-gradient(top,#858585,#f3f3f3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#858585',EndColorStr='#f3f3f3');
-	border: 1px solid #333;
+	border: 1px solid #909090;
 }
 
 
