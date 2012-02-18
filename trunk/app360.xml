@@ -1,0 +1,15 @@
+<Module>
+  <ModulePrefs title="Your App Name">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
+
+      <div id="log"></div>
+
+      <script src="//www.corp.google.com/~dmauldin/timingtest/app.js"></script>
+    ]]>
+  </Content>
+</Module>
