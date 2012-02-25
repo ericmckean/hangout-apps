@@ -11,7 +11,7 @@
         <script src="https://www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
         <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/requires.js"></script>
         <script src="https://www.corp.google.com/~dmauldin/hangout.js"></script>
-        <!--<script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>-->
+        <!--<script src="//foo.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>-->
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/charades.js"></script>
       </head>
     ]]>
