@@ -15,7 +15,7 @@
       </head>
       <body>
         <div id='left'>
-          <div id='title'></div>
+          <div id='title'>Charades</div>
           <div id='score-board'></div>
           <div id='controls'></div>
         </div>
