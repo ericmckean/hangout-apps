@@ -8,9 +8,7 @@
     <![CDATA[
       <head>
         <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
-        <script>
-gadgets.rpc.call(undefined, 'hangout_start_screencast', undefined);
-        </script>
+        <script src="//www.corp.google.com/~peterhal/sc/sc.js"></script>
       </head>
     ]]>
   </Content>
