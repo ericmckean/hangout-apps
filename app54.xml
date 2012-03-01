@@ -23,6 +23,7 @@
           <div id='video-feed'></div>
           <div id='main-content'></div>
         </div>
+        <div class="clear"></div>
       </body>
     ]]>
   </Content>
