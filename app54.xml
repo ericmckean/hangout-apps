@@ -14,10 +14,10 @@
         <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/charades.js"></script>
       </head>
       <body>
-        <div id="title"></div>
-        <div id="scores"></div>
-        <div id="controls"></div>
         <div id="video"></div>
+        <div id="scores"></div>
+        <div id="title"></div>
+        <div id="controls"></div>
         <div id="content"></div>
       </body>
      ]]>
