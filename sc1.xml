@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="sc1">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <head>
+        <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
+        <script>
+gadgets.rpc.call(undefined, 'hangout_start_screencast', undefined);
+        </script>
+      </head>
+    ]]>
+  </Content>
+</Module>
