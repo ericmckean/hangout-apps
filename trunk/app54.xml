@@ -14,7 +14,7 @@
         <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades/src/charades.js"></script>
       </head>
       <body>
-        <div id='conteint-container'>
+        <div id='conteint-wrapper'>
           <div id='left'>
             <div id='title'>Charades</div>
             <div id='score-board'></div>
