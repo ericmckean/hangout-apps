@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-  <ModulePrefs title="App1">
+  <ModulePrefs title="Charades">
     <Require feature="rpc"/>
     <Require feature="views"/>
   </ModulePrefs>
@@ -16,7 +16,7 @@
       <body>
         <div id="video"></div>
         <div id="scores"></div>
-        <div id="title"></div>
+        <div id="title">Charades</div>
         <div id="controls"></div>
         <div id="content"></div>
       </body>
