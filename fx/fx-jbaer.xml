@@ -113,29 +113,15 @@
 Effects
 </div>
 
-<div id="tab-bar">
+<div id="video-div">
+
+<div id="video-tab-bar">
 </div>
 
 <div id="effects-list" class="scrollBarInner" style="height:100%; padding-left:15px; font-size:14px">
-
 </div>
 
-<!--
-<div id="overlay-controls" style="width:239px;padding:2px;height:31px;border-bottom:1px solid #a0adbb">
 </div>
-
-<div id="sound-broadcast" style="width:239px;padding:2px;height:31px;border-bottom:1px solid #a0adbb">
-</div>
-
-<div id="participant-list" style="height:150px;scroll:auto">
-</div>
-
-<div id="messageDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
-</div>
-
-<div id="giftDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
-</div>
--->
 
 </div>
 
