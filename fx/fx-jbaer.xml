@@ -75,6 +75,21 @@
 	border: 1px solid #909090;
 }
 
+.kd-tabbutton {
+  color: #999999;
+}
+
+.kd-tabbutton:hover {
+  color: #cccccc;
+}
+
+.kd-tabbutton:d0d0d0 {
+  color: #999999;
+}
+
+.kd-tabbutton.selected {
+  color: #dddddd;
+}
 
 -->
 </style>
