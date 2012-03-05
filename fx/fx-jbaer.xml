@@ -113,7 +113,16 @@
 Effects
 </div>
 
-<div id="tab-bar">
+<div id="tab-bar" style="height:40px;background:url(http://corp.google.com/~jbaer/google-hangouts-apps/fx/css/drop-shadow.png); background-posiiton:0px 2px">
+  <div class="kd-tabs">
+    <div class="kd-buttonbar kd-tabbar-horz">
+      <div style="display:inline;width:15px;">&nbsp;&nbsp;&nbsp;</div>
+      <div style="display:inline;border-bottom:15px solid #333333">
+        <a class="kd-tabbutton selected" style="height:26px; background-color:#333333;border-bottom:1px solid #333333">Video</a>
+      </div>
+        <a class="kd-tabbutton" style="height:26px;">Sounds</a>
+    </div>
+  </div>
 </div>
 
 <div id="effects-list" class="scrollBarInner" style="height:100%; padding-left:15px; font-size:14px">
