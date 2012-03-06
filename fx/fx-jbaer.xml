@@ -107,29 +107,16 @@
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
 
 
-<div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:243px; background-color:#333333; color:#dddddd;">
+<div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:298px; background-color:#333333; color:#dddddd;">
 
-<div id="title-bar" style="font-size:16px; padding:15px;">
+<div id="title-bar" style="font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
 Effects
 </div>
 
-<div id="video-div">
-
-<div id="video-tab-bar">
+<div id="tab-bar">
 </div>
 
 <div id="effects-list" class="scrollBarInner" style="height:100%; padding-left:15px; font-size:14px">
-</div>
-
-</div>
-
-<div id="sound-div" style="display:none">
-
-<div id="sound-tab-bar">
-</div>
-
-<div id="sound-effects-list" class="scrollBarInner" style="height:100%; padding-left:15px; font-size:14px">
-</div>
 
 </div>
 
