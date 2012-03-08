@@ -15,8 +15,8 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
 
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="https://www.corp.google.com/kennedy/spec/assets/css/kd_components.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="https://www.corp.google.com/kennedy/spec/assets/css/kd_components_google.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://www.corp.google.com/~peterhal/google-hangouts-apps/googui/css/googui-components-1.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://www.corp.google.com/~peterhal/google-hangouts-apps/googui/css/googui-components-2.css" type="text/css" media="all" />
 
 <style>
 <!--
@@ -75,6 +75,21 @@
 	border: 1px solid #909090;
 }
 
+.kd-tabbutton {
+  color: #999999;
+}
+
+.kd-tabbutton:hover {
+  color: #cccccc;
+}
+
+.kd-tabbutton:d0d0d0 {
+  color: #999999;
+}
+
+.kd-tabbutton.selected {
+  color: #dddddd;
+}
 
 -->
 </style>
@@ -87,7 +102,7 @@
 <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 <script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
 
-<script src="https://www.corp.google.com/~jbaer/googui/googui.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://www.corp.google.com/~peterhal/google-hangouts-apps/googui/src/googui.js" type="text/javascript" charset="utf-8"></script>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
 
@@ -114,4 +129,3 @@ Effects
 </Content>
 
 </Module>
-
