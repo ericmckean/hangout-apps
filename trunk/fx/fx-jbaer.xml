@@ -107,9 +107,8 @@ var _gaq = _gaq || [];
       })();
 
 function fireEvent(appName, action, label, value, navlink)
- {
+{
 	  if(_gaq) _gaq.push(['_trackEvent', appName, action, label, value);
-
 }
 -->
 </script> 
