@@ -15,8 +15,6 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
 
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="https://www.corp.google.com/~jbaer/google-hangouts-apps/googui/css/googui-components-1.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="https://www.corp.google.com/~jbaer/google-hangouts-apps/googui/css/googui-components-2.css" type="text/css" media="all" />
 
 <style>
 <!--
@@ -110,6 +108,31 @@ function fireGAEvent(appName, action, label, value)
 {
 	  if(_gaq) _gaq.push(['_trackEvent', appName, action, label, value]);
 }
+
+var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
+(function() {
+    var params = window.location.search.split('&');
+    var prefix = 'parent=';
+    for (var i = 0; i < params.length; i++) {
+        if (params[i].indexOf(prefix) == 0) {
+            var hangoutUrl =
+                decodeURIComponent(params[i].substr(prefix.length));
+            var hangoutJSUrl = hangoutUrl + '/hangouts/api/hangout.js';
+            document.write(
+                '<link rel="stylesheet" href="' + gResourceRoot + 'googui/css/googui-components-1.css" type="text/css" media="all" />');
+            document.write(
+                '<link rel="stylesheet" href="' + gResourceRoot + 'googui/css/googui-components-2.css" type="text/css" media="all" />');
+            document.write(
+                '<script type="text/javascript" src="' + gResourceRoot + 'googui/src/googui.js"></script>');
+            document.write(
+                '<script type="text/javascript" src="' + hangoutJSUrl + '"></script>');
+            document.write(
+                '<script type="text/javascript" src="' + gResourceRoot + 'fx/src/fx.js"></script>');
+            break;
+        }
+    }
+})();
+
 -->
 </script> 
 
@@ -120,11 +143,6 @@ function fireGAEvent(appName, action, label, value)
 <script type="text/javascript" src="//www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 <script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
-
-<script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/googui/src/googui.js" type="text/javascript" charset="utf-8"></script>
-
-<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
-
 
 <div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:300px; background-color:#333333; color:#dddddd;">
 
@@ -139,8 +157,6 @@ function fireGAEvent(appName, action, label, value)
 </div>
 
 </div>
-
-<script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/fx/src/fx.js"></script>
 
 
 ]]>
