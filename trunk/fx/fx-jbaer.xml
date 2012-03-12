@@ -14,6 +14,13 @@
 	<title>Hangout FX App</title>
 	<meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
 
+<script>
+<!--
+// update this to deploy
+var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
+-->
+</script>
+
 <style>
 <!--
 .close-button img {
@@ -112,7 +119,6 @@ function fireGAEvent(appName, action, label, value)
 	  if(_gaq) _gaq.push(['_trackEvent', appName, action, label, value]);
 }
 
-var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 (function() {
     var params = window.location.search.split('&');
     var prefix = 'parent=';
