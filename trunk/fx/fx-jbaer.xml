@@ -12,9 +12,7 @@
 <html>
 <head>
 	<title>Hangout FX App</title>
-	    <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
-
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
 
 <style>
 <!--
@@ -92,6 +90,11 @@
 -->
 </style>
 
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
+
+
 <script type="text/javascript" charset="utf-8"> 
 <!--
 var _gaq = _gaq || [];
@@ -139,10 +142,6 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 </head>
 
 <body>
-
-<script type="text/javascript" src="//www.google.com/jsapi"></script>
-<script type="text/javascript">google.load("jquery", "1.3.2");</script>
-<script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
 
 <div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:300px; background-color:#333333; color:#dddddd;">
 
