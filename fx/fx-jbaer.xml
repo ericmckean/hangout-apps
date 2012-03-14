@@ -161,7 +161,7 @@ function fireGAEvent(appName, action, label, value)
 
 </div>
 
-<div id="bottom-button-bar" style="width:300px;padding:15px;position:absolute;bottom:0px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
+<div id="bottom-button-bar" style="width:100%;padding:15px;position:absolute;bottom:0px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
 </div>
 
 </div>
