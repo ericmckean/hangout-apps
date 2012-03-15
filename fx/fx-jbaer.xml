@@ -155,9 +155,7 @@ function fireGAEvent(appName, action, label, value)
 <div id="app-content" style="display:table;height:100%">
 
 <div style="display:table-row">
-<div id="title-bar" style="height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
-</div>
-<div id="tab-bar">
+<div id="title-bar" style="display:table-cell;height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
 </div>
 </div>
 
