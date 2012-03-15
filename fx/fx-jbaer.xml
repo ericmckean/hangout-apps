@@ -152,11 +152,11 @@ function fireGAEvent(appName, action, label, value)
 
 <div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:300px; background-color:#333333; color:#dddddd;">
 
-<div id="title-bar" style="position:absolute;top:0px;left:0px;height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
+<div id="title-bar" style="position:absolute;top:0px;left:0px;height:50px;font-size:16px; width:270px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
 </div>
 
 
-<div id="effects-list" class="scrollBarInner" style="position:absolute;top:50px;bottom:50px;padding-left:15px; font-size:14px">
+<div id="effects-list" class="scrollBarInner" style="position:absolute;left:0px;right:0px;top:50px;bottom:50px;padding-left:15px; font-size:14px">
 
 </div>
 
