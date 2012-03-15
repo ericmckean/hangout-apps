@@ -156,7 +156,7 @@ function fireGAEvent(appName, action, label, value)
 </div>
 
 
-<div id="effects-list" class="scrollBarInner" style="position:absolute;left:0px;right:0px;top:50px;bottom:50px;padding-left:15px; font-size:14px; overflow:auto">
+<div id="effects-list" class="scrollBarInner" style="position:absolute;left:0px;right:0px;top:50px;padding-left:15px; font-size:14px;">
 
 </div>
 
