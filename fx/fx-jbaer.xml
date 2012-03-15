@@ -152,26 +152,16 @@ function fireGAEvent(appName, action, label, value)
 
 <div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:300px; background-color:#333333; color:#dddddd;">
 
-<div id="app-content" style="display:table;height:100%">
-
-<div style="display:table-row">
-<div id="title-bar" style="display:table-cell;height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
-</div>
+<div id="title-bar" style="position:absolute;top:0px;left:0px;height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
 </div>
 
 
-<div style="display:table-row">
-<div id="effects-list" class="scrollBarInner" style="display:table-cell; height:100%;padding-left:15px; font-size:14px">
+<div id="effects-list" class="scrollBarInner" style="position:absolute;top:50px;bottom:50px;padding-left:15px; font-size:14px">
 
-</div>
 </div>
 
 
-<div style="display:table-row">
-<div id="bottom-button-bar" style="display:table-cell;height:50px;width:270px;bottom:0px;padding:15px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
-</div>
-</div>
-
+<div id="bottom-button-bar" style="position:absolute;left:0px;bottom:0px;height:50px;width:270px;bottom:0px;padding:15px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
 </div>
 
 </div>
