@@ -94,6 +94,20 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
   color: #dddddd;
 }
 
+html, body 
+{ 
+    height: 100%; 
+} 
+
+#app-container
+{
+    min-height: 100%; 
+    height: auto !important; /*Cause footer to stick to bottom in IE 6*/
+    height: 100%; 
+    margin: 0 auto -100px; /*Allow for footer height*/
+    vertical-align:bottom;
+}
+
 -->
 </style>
 
@@ -151,22 +165,21 @@ function fireGAEvent(appName, action, label, value)
 
 <div id="app-container" style="position: absolute; left: 0px; bottom:0px; top: 0px; width:300px; background-color:#333333; color:#dddddd;">
 
-<div id="title-bar" style="font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
+<div id="title-bar" style="height:50px;font-size:16px; padding:15px; border-bottom:1px solid #7c7c7c;  -webkit-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px 3px 3px 3px rgba(0,0,0,0.2);">
 </div>
 
 <div id="tab-bar">
 </div>
 
-<div style="height:100%">
-<div id="effects-list" class="scrollBarInner" style="height:100%;padding-left:15px; font-size:14px">
+<div id="effects-list" class="scrollBarInner" style="padding-left:15px; font-size:14px">
 
 </div>
 
-<div id="bottom-button-bar" style=";width:270px;bottom:0px;padding:15px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
-</div>
+<div style="height:50px"></div>
 
 </div>
 
+<div id="bottom-button-bar" style="height:50px;width:270px;bottom:0px;padding:15px; border-top:1px solid #7c7c7c;  -webkit-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2); -moz-box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);box-shadow: -3px -3px 3px 3px rgba(0,0,0,0.2);"">
 </div>
 
 
