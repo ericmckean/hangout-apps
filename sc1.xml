@@ -7,7 +7,7 @@
   <Content type="html">
     <![CDATA[
       <head>
-        <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
+        <script src="//foo.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
         <script src="//www.corp.google.com/~jbaer/google-hangouts-apps/screencast/src/screencast.js"></script>
       </head>
     ]]>
