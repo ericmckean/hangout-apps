@@ -77,6 +77,9 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#858585',EndColorStr='#f3f3f3');
 	border: 1px solid #909090;
 }
+.kd-button.selected.dark-bg.focus {
+	border: 1px solid #4D90FE;
+}
 
 .kd-tabbutton {
   color: #999999;
