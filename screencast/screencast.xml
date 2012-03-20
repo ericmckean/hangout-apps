@@ -36,12 +36,9 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 	opacity: 1.0;
 }
 
-.kd-button.share {
-	background-color: #3D9400;
+.kd-button-share {
   height: 27px;
-  color: white;
   font-size: 18px;
-  border-color: #29691D;
 }
 .kd-button.dark-bg:hover {
  	background-color: #fdfdfd;
