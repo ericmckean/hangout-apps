@@ -37,7 +37,7 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 }
 
 .kd-button-share {
-  height: 27px;
+  height: 47px;
   font-size: 18px;
 }
 .kd-button.dark-bg:hover {
