@@ -89,6 +89,26 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 }
 
 
+html,body{height:100%}
+.wrapper{
+	height:100%;
+	width:100%;
+	display:table;
+	vertical-align:middle;
+}
+.outer{
+	display:table-cell;
+	vertical-align:middle;
+}
+.innerwrap{
+	position:relative;
+	left:50%;
+	float:left;
+}
+.inner{
+	position:relative;
+	left:-50%;
+}
 -->
 </style>
 
@@ -142,14 +162,16 @@ function fireGAEvent(appName, action, label, value)
 
 </head>
 
-<body style="height:100%;width:100%">
+<body>
 
-<div style="display:table;height:100%;width:100%">
-
-<div id="app-container" style="display:table-cell; vertical-align:middle; text-align:center; width:100%; height:100%">
+<div class="wrapper">
+<div class="outer">
+<div class="inner-wrap">
+<div id="app-container" class="inner">
 
 </div>
-
+</div>
+</div>
 </div>
 
 ]]>
