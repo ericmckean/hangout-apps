@@ -144,9 +144,11 @@ function fireGAEvent(appName, action, label, value)
 
 <body>
 
-<div id="app-container" style="position:absolute; top:0px; left:0px; bottom:0px; right:0px; display:table-cell; vertical-align:middle; text-align:center">
+<div style="display:table;height:100%;width:100%">
 
+<div id="app-container" style="display:table-cell; vertical-align:middle; text-align:center">
 
+</div>
 
 </div>
 
