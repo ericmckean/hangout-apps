@@ -161,7 +161,7 @@ function fireGAEvent(appName, action, label, value)
 
 <body>
 
-<div class="wrapper">
+<div id="outer-container" class="wrapper">
 <div class="outer">
 <div id="app-container" class="inner">
 
