@@ -102,6 +102,7 @@ html,body{height:100%}
 }
 .inner{
 	position:relative;
+  width:100%;
 	margin:auto;
 	float:left;
 }
