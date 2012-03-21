@@ -100,14 +100,10 @@ html,body{height:100%}
 	display:table-cell;
 	vertical-align:middle;
 }
-.innerwrap{
+.inner{
 	position:relative;
 	left:50%;
 	float:left;
-}
-.inner{
-	position:relative;
-	left:-50%;
 }
 -->
 </style>
@@ -166,10 +162,8 @@ function fireGAEvent(appName, action, label, value)
 
 <div class="wrapper">
 <div class="outer">
-<div class="inner-wrap">
 <div id="app-container" class="inner">
 
-</div>
 </div>
 </div>
 </div>
