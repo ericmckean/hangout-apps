@@ -142,7 +142,7 @@ function fireGAEvent(appName, action, label, value)
 
 </head>
 
-<body>
+<body style="height:100%;width:100%">
 
 <div style="display:table;height:100%;width:100%">
 
