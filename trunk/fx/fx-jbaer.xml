@@ -81,16 +81,16 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 
 .kd-button.selected.dark-bg.focus {
 	border: 1px solid #4D90FE;
-  -moz-box-shadow: inset 0 0 1px #4D90FE;
-  -webkit-box-shadow: inset 0 0 11px #4D90FE;
-  box-shadow: inset 0 0 11px #4D90FE;
+  -moz-box-shadow: inset 0 0 0px #4D90FE;
+  -webkit-box-shadow: inset 0 0 0px #4D90FE;
+  box-shadow: inset 0 0 0px #4D90FE;
 }
 
 .kd-button.dark-bg.focus {
   border: 1px solid #4d90fe;
-  -moz-box-shadow: inset 0 0 1px #4D90FE;
-  -webkit-box-shadow: inset 0 0 1px #4D90FE;
-  box-shadow: inset 0 0 1px #4D90FE;
+  -moz-box-shadow: inset 0 0 0px #4D90FE;
+  -webkit-box-shadow: inset 0 0 0px #4D90FE;
+  box-shadow: inset 0 0 0px #4D90FE;
 }
 
 
