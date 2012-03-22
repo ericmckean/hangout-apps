@@ -87,6 +87,14 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
   border: 2px solid #4d90fe;
 }
 
+.kd-button.selected.small.dark-bg.focus {
+  width: 32px;
+}
+
+.kd-button.small.dark-bg.focus {
+  width: 32px;
+}
+
 
 .kd-tabbutton {
   color: #999999;
