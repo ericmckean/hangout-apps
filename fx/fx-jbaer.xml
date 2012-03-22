@@ -80,6 +80,7 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 	background-image: -o-linear-gradient(top,#858585,#f3f3f3);
 	background-image: linear-gradient(top,#858585,#f3f3f3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#858585',EndColorStr='#f3f3f3');
+  border: 2px solid #909090;
 }
 
 .kd-button.selected.dark-bg.focus {
