@@ -37,7 +37,7 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 }
 
 .kd-button.dark-bg.small {
-  padding: 1px 9px;
+  padding: 1px 1px;
 }
 
 .kd-button.dark-bg {
@@ -81,6 +81,7 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 	background-image: linear-gradient(top,#858585,#f3f3f3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#858585',EndColorStr='#f3f3f3');
 }
+
 .kd-button.selected.dark-bg.focus {
 	border: 2px solid #4D90FE;
   padding: 0 8px;
@@ -91,6 +92,15 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
   padding: 0 8px;
 }
 
+.kd-button.selected.dark-bg.small.focus {
+  border: 2px solid #4d90fe;
+  padding: 0;
+}
+
+.kd-button.dark-bg.small.focus {
+  border: 2px solid #4d90fe;
+  padding: 0;
+}
 
 .kd-tabbutton {
   color: #999999;
