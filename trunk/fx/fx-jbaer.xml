@@ -25,7 +25,6 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 <!--
 .close-button img {
 	opacity: 0.75;
-  border: 1px solid #000000;
 }
 .close-button.selected img {
 	opacity: 1.0;
@@ -36,7 +35,7 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 .close-button:active img {
 	opacity: 1.0;
 }
-.close-button.focus {
+.close-button.focus img {
   border: 1px solid #4D90FE;
 	-webkit-border-radius:2px;
   -moz-border-radius: 2px;
