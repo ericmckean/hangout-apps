@@ -35,6 +35,12 @@ var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 .close-button:active img {
 	opacity: 1.0;
 }
+.close-button.focus {
+ 	border: 1px solid #4D90FE;
+  -moz-box-shadow: inset 0 0 0px 1px  #4D90FE;
+  -webkit-box-shadow: inset 0 0 0px 1px  #4D90FE;
+  box-shadow: inset 0 0 0px 1px  #4D90FE;
+}
 
 
 .kd-button.dark-bg {
