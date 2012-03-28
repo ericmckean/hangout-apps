@@ -80,9 +80,9 @@ function fireGAEvent(appName, action, label, value)
             document.write(
                 '<script type="text/javascript" src="' + gResourceRoot + 'googui/src/googui.js"></script>');
             document.write(
-                '<script type="text/javascript" src="' + gResourceRoot + 'screencast/src/screencast.js"></script>');
-            document.write(
                 '<script type="text/javascript" src="' + hangoutJSUrl + '"></script>');
+            document.write(
+                '<script type="text/javascript" src="' + gResourceRoot + 'screencast/src/screencast.js"></script>');
             break;
         }
     }
