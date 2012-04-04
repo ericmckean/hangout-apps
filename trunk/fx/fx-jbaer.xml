@@ -18,7 +18,7 @@
 <script type="text/javascript" charset="utf-8"> 
 <!--
 // update this to deploy
-var gResourceRoot = 'http://www.countingstick.com/hangouts/';
+var gResourceRoot = 'https://www.countingstick.com/hangouts/';
 var gSourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 -->
 </script>
