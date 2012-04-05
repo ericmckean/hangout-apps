@@ -18,7 +18,6 @@
 <script type="text/javascript" charset="utf-8"> 
 <!--
 // update this to deploy
-var gOverlayRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
 -->
 </script>
