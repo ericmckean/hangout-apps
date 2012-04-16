@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Charades">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <head>
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/style.css" />
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-1.css" />
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-2.css" />
+        <script type="text/javascript" src="//www.google.com/jsapi"></script>
+        <script type="text/javascript">google.load("jquery", "1.3.2");</script>
+        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
+        <script src="https://www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
+        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js"></script>
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/jquery.tools.min.js"></script>
+        <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
+        <script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/charades-ffa-dev/src/hangout-utils.js"></script>
+        <script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
+      </head>
+      <body>
+        <div id="video"></div>
+        <div id="scores"></div>
+        <div id="title">Charades</div>
+        <div id="controls"></div>
+        <div id="content"></div>
+      </body>
+     ]]>
+  </Content>
+</Module>
