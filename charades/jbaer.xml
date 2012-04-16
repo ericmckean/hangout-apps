@@ -17,8 +17,7 @@
         <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js"></script>
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/jquery.tools.min.js"></script>
         <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
-        <script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/charades-ffa-dev/src/hangout-utils.js"></script>
-        <script src="https://www.corp.google.com/~jbaer/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
+        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
       </head>
       <body>
         <div id="video"></div>
