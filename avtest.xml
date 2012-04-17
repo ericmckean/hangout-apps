@@ -6,11 +6,12 @@
   </ModulePrefs>
   <Content type="html">
     <![CDATA[
-      <link rel="stylesheet" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/avtest/style.css" />
+      <link rel="stylesheet" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/avtest/avtest.css" />
 
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
       <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0"></script>
       <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/avtest/avtest.js"></script>
     ]]>
+    <div id="content"></div>
   </Content>
 </Module>
