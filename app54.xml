@@ -7,17 +7,27 @@
   <Content type="html">
     <![CDATA[
       <head>
-        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/style.css" />
         <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-1.css" />
         <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-2.css" />
+
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/style.css" />
+
         <script type="text/javascript" src="//www.google.com/jsapi"></script>
         <script type="text/javascript">google.load("jquery", "1.3.2");</script>
-        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
-        <script src="https://www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
-        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js"></script>
+
+        <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0"></script>
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
+        <script src="//www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/jquery.tools.min.js"></script>
-        <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
-        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
+
+        <script type="text/javascript">
+          function scriptNoCache(url) {
+            var buster = Math.random() * 1E10;
+            document.write('<script language="javascript" src="' + url + ';buster=' + buster + '?"');
+          }
+          scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js");
+          scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js");
+        </script>
       </head>
       <body>
         <div id="video"></div>
