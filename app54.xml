@@ -22,8 +22,8 @@
 
         <script type="text/javascript">
           function scriptNoCache(url) {
-            var buster = Math.random() * 1E10;
-            document.write("<scr" + "ipt language='javascript' src='" + url + ";buster=" + buster + "?'></sc" + "ript>");
+            var buster = Math.random() * 1E16;
+            document.write("<scr" + "ipt language='javascript' src='" + url + "?buster=" + buster + "'></sc" + "ript>");
           }
           scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js");
           scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js");
