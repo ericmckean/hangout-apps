@@ -23,7 +23,7 @@
         <script type="text/javascript">
           function scriptNoCache(url) {
             var buster = Math.random() * 1E10;
-            document.write('<script language="javascript" src="' + url + ';buster=' + buster + '?"></script>');
+            document.write("<script language='javascript' src='" + url + ";buster=" + buster + "?'></script>");
           }
           scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js");
           scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js");
