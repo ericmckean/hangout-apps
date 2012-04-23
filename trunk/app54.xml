@@ -19,15 +19,8 @@
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
         <script src="//www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/jquery.tools.min.js"></script>
-
-        <script type="text/javascript">
-          function scriptNoCache(url) {
-            var buster = Math.random() * 1E16;
-            document.write("<scr" + "ipt language='javascript' src='" + url + "?buster=" + buster + "'></sc" + "ript>");
-          }
-          scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/requires.js");
-          scriptNoCache("//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js");
-        </script>
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades-deps.js"></script>
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
       </head>
       <body>
         <div id="video"></div>
