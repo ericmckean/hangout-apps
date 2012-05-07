@@ -7,25 +7,36 @@
   <Content type="html">
     <![CDATA[
       <head>
+        <!-- googui css includes -->
         <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-1.css" />
         <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/css/googui-components-2.css" />
 
+        <!--- charades app css includes -->
         <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/style.css" />
 
+        <!-- jquery is required for googui and modal dialog overlay -->
         <script type="text/javascript" src="//www.google.com/jsapi"></script>
         <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 
         <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0"></script>
-        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
         <script src="//www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
+
+        <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/googui/src/googui.js"></script>
+
+        <!-- jquery tools provides the overlay used for modal dialogs -->
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/jquery.tools.min.js"></script>
+
+        <!-- closure calculated deps for charades.App -->
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades-deps.js"></script>
+
+        <!-- this is just the charades.App loader
+             the app code won't execute until everything else on this page is loaded -->
         <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa-dev/src/charades.js"></script>
       </head>
       <body>
         <div id="video"></div>
         <div id="scores"></div>
-        <div id="title">Charades</div>
+        <div id="title"></div>
         <div id="controls"></div>
         <div id="content"></div>
       </body>
