@@ -61,29 +61,29 @@ Effect Name:
 
 Icon URI:
 <input type="text" id="iconUriInput" />
-<input type="button" class="button" id="loadIconButton" onClick="loadIcon()" value="Fetch" />
+<input type="button" class="button" id="loadIconButton" onClick="loadIcon()" value="Load" />
 <br/>
 
-Overlay URI:
-<input type="text" id="overlayUriInput" />
-<input type="button" class="button" id="loadOverlayButton" onClick="loadOverlay()" value="Fetch" />
+Overlay Image URI:
+<input type="text" id="imageUriInput" />
+<input type="button" class="button" id="loadImageButton" onClick="loadImage()" value="Load" />
 <br/>
 
 Feature:
 <select id="featureSelect" onChange="onSetFeature(this.value)">
-  <option>LEFT_EYE</option>
-  <option>LEFT_EYEBROW_LEFT</option>
-  <option>LEFT_EYEBROW_RIGHT</option>
-  <option>LOWER_LIP</option>
-  <option>MOUTH_CENTER</option>
-  <option>MOUTH_LEFT</option>
-  <option>MOUTH_RIGHT</option>
-  <option>NOSE_ROOT</option>
-  <option>NOSE_TIP</option>
-  <option>RIGHT_EYE</option>
-  <option>RIGHT_EYEBROW_LEFT</option>
-  <option>RIGHT_EYEBROW_RIGHT</option>
-  <option>UPPER_LIP</option>
+  <option>left_eye_center</option>
+  <option>left_eyebrow_left</option>
+  <option>left_eyebrow_right</option>
+  <option>lip_lower</option>
+  <option>mouth_center</option>
+  <option>mouth_left</option>
+  <option>mouth_right</option>
+  <option>nose_root</option>
+  <option>nose_tip</option>
+  <option>right_eye_center</option>
+  <option>right_eyebrow_left</option>
+  <option>right_eyebrow_right</option>
+  <option>lip_upper</option>
 </select>
 <br/>
 
