@@ -61,12 +61,12 @@ Effect Name:
 
 Icon URI:
 <input type="text" id="iconUriInput" />
-<input type="button" class="button" id="loadIconButton" onClick="loadIcon()" />
+<input type="button" class="button" id="loadIconButton" onClick="loadIcon()" value="Fetch" />
 <br/>
 
 Overlay URI:
 <input type="text" id="overlayUriInput" />
-<input type="button" class="button" id="loadOverlayButton" onClick="loadOverlay()" />
+<input type="button" class="button" id="loadOverlayButton" onClick="loadOverlay()" value="Fetch" />
 <br/>
 
 Feature:
