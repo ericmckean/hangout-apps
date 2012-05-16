@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *	
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+-->
+	<ModulePrefs title="Create FX">
+		<Require feature="rpc" />
+		<Require feature="views" />\
+		<Require feature="locked-domain" /> \
+	</ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+<html>
+<style type="text/css">
+<!--
+.button {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+  background: -moz-linear-gradient(top, #fff, #ddd);  
+  border: 1px solid #bbb;
+}
+
+.button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333)); 
+	background: -moz-linear-gradient(bottom, #ddd, #aaa); }
+
+-->
+</style>
+<head>
+	<title>Hangout Media Starter</title>
+	    <meta http-equiv="Content-Type" content="text/html;
+charset = iso - 8859 - 1 " />
+</head>
+
+<body>
+
+<script src="https://hangoutsapi.talkgadget.google.com/hangouts/_/api/hangout.js?v=1.1" ></script>
+<script src="https://hangoutmediastarter.appspot.com/static/html5slider.js"></script>
+
+Category Name:
+<input type="text" id="catNameInput" onChange="onSetCatName(this.value)" />
+<br/>
+
+Category Id:
+<input type="text" id="catIdInput" onChange="onSetCatId(this.value)" />
+<br />
+
+Effect Name:
+<input type="text" id="nameInput" onChange="onSetName(this.value)" />
+<br/>
+
+Icon URI:
+<input type="text" id="iconUriInput" />
+<input type="button" class="button" id="loadIconButton" onClick="loadIcon()" />
+<br/>
+
+Overlay URI:
+<input type="text" id="overlayUriInput" />
+<input type="button" class="button" id="loadOverlayButton" onClick="loadOverlay()" />
+<br/>
+
+Feature:
+<select id="featureSelect" onChange="onSetFeature(this.value)">
+  <option>LEFT_EYE</option>
+  <option>LEFT_EYEBROW_LEFT</option>
+  <option>LEFT_EYEBROW_RIGHT</option>
+  <option>LOWER_LIP</option>
+  <option>MOUTH_CENTER</option>
+  <option>MOUTH_LEFT</option>
+  <option>MOUTH_RIGHT</option>
+  <option>NOSE_ROOT</option>
+  <option>NOSE_TIP</option>
+  <option>RIGHT_EYE</option>
+  <option>RIGHT_EYEBROW_LEFT</option>
+  <option>RIGHT_EYEBROW_RIGHT</option>
+  <option>UPPER_LIP</option>
+</select>
+<br/>
+
+Rotate With Face:
+<input type="checkbox" id="RotateWithFaceCheckbox" onChange="onSetRotateWithFace(this.value)" />
+<br/>
+
+Scale With Face:
+<input type="checkbox" id="scaleWithFaceCheckbox" onChange="onSetScaleWithFace(this.value)" />
+<br/>
+
+Scale:
+<input id="scaleSlider" type="range" min="0.75" max="2.0" value="1.0" step="0.05"  onchange="onSetScale(this.value)" />
+<span id="scaleTxt">0</span>
+<br/>
+
+X-Offset:
+<input id="xOffsetSlider" type="range" min="-0.2" max="0.15" value="0.1" step="0.01"  onchange="onSetXOffset(this.value)" />
+<span id="xOffsetTxt">0</span>
+<br/>
+
+Y-Offset:
+<input id="yOffsetSlider" type="range" min="-0.2" max="0.15" value="0.1" step="0.01"  onchange="onSetYOffset(this.value)" />
+<span id="yOffsetTxt">0</span>
+
+<script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/makefx/makefx.js"></script>
+
+</body>
+    ]]>
+  </Content>
+</Module>
