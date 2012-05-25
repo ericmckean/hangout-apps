@@ -31,7 +31,7 @@ var hangoutJsUrl = urlParams.parent + '/hangouts/api/hangout.js?v=vhead';
 // Use document.write so that hangout.js is executed before subsequent script
 // blocks begin.
 document.write('<script type="text/javascript" src="' + hangoutJsUrl +
-    '"></script>');
+    '"></' + 'script>');
         </script>
         <script>
 gapi.hangout.onApiReady.add(function() {
