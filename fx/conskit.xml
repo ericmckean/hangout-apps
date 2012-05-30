@@ -18,7 +18,7 @@
 <script type="text/javascript" charset="utf-8"> 
 <!--
 // update this to deploy
-var gResourceRoot = 'https://www.corp.google.com/~jbaer/google-hangouts-apps/';
+var gResourceRoot = 'https://www.corp.google.com/~dmauldin/google-hangouts-apps/';
 -->
 </script>
 
@@ -52,17 +52,21 @@ function fireGAEvent(appName, action, label, value)
       var hangoutUrl =
         decodeURIComponent(params[i].substr(prefix.length));
       var hangoutJSUrl = hangoutUrl + '/hangouts/api/hangout.js';
-      document.write('<link rel="stylesheet" href="' + gResourceRoot 
-        + 'googui/css/googui-components-1.css" type="text/css" media="all" />');
-      document.write('<link rel="stylesheet" href="' + gResourceRoot 
-        + 'googui/css/googui-components-2.css" type="text/css" media="all" />');
-      document.write('<script type="text/javascript" src="' + gResourceRoot 
-        + 'googui/src/googui.js"></script>');
-      document.write('<link rel="stylesheet" href="' + gResourceRoot 
-        + 'fx/css/fx.css" type="text/css" media="all" />');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot
+          + 'googui/css/googui-components-1.css" type="text/css" media="all" />');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot
+          + 'googui/css/googui-components-2.css" type="text/css" media="all" />');
+      document.write('<script type="text/javascript" src="' + gResourceRoot
+          + 'googui/src/googui.js"></script>');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot
+          + 'fx/css/fx.css" type="text/css" media="all" />');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot
+          + 'fx/css/conskit.css" type="text/css" media="all" />');
       document.write('<script type="text/javascript" src="' + hangoutJSUrl + '"></script>');
-      document.write('<script type="text/javascript" src="' + gResourceRoot 
-        + 'fx/src/fx.js"></script>');
+      document.write('<script type="text/javascript" src="' + gResourceRoot
+          + 'fx/src/fx.js"></script>');
+      document.write('<script type="text/javascript" src="' + gResourceRoot
+          + 'fx/src/conskit.js"></script>');
       break;
     }
   }
