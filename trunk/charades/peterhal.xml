@@ -8,14 +8,18 @@
     <![CDATA[
       <head>
         <script>
+function writeTag(tag) {
+  debugger;
+  document.write(tag);
+}
+
 function loadScript(url) {
-  document.write('<script type="text/javascript" src="' + url +
+  writeTag('<script type="text/javascript" src="' + url +
       '"><' + '/script>'); // Split script tag so it isn’t used as end of tag.
 }
 
 function loadStyle(url) {
-  document.write('<link rel="stylesheet" type="text/css" href="' + url +
-      '" />');
+  writeTag('<link rel="stylesheet" type="text/css" href="' + url + '" />');
 }
 
 var resourceRoot = '//www.corp.google.com/~peterhal/google-hangouts-apps/';
