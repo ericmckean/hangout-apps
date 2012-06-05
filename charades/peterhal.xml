@@ -64,7 +64,7 @@ function loadRelativeStyle(path) {
         // won’t be available until the start of the next script block.
         </script>
 
-        <!-- jquery is required for googui and modal dialog overlay
+        <!-- jquery is required for googui and modal dialog overlay -->
         <script type="text/javascript" src="//www.google.com/jsapi"></script>
         <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 
