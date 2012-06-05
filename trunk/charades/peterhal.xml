@@ -9,7 +9,6 @@
       <head>
         <script>
 function writeTag(tag) {
-  debugger;
   document.write(tag);
 }
 
