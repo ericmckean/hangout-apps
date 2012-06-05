@@ -63,30 +63,30 @@ function loadRelativeStyle(path) {
         // End the script block. The rest of the app likely depends on gapi.hangout which
         // won’t be available until the start of the next script block.
         </script>
-        <script>
 
-        <!-- jquery is required for googui and modal dialog overlay -->
+        <!-- jquery is required for googui and modal dialog overlay
         <script type="text/javascript" src="//www.google.com/jsapi"></script>
         <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 
-        <!-- jquery tools provides the overlay used for modal dialogs -->
+        <script>
+        // jquery tools provides the overlay used for modal dialogs
         loadRelativeScript('charades-ffa-dev/src/jquery.tools.min.js');
 
-        <!-- googui -->
+        // googui
         loadRelativeStyle('googui/css/googui-components-1.css');
         loadRelativeStyle('googui/css/googui-components-2.css');
         loadRelativeScript('googui/src/googui.js');
 
         loadRelativeScript('../closure-library/closure/goog/base.js');
 
-        <!--- charades app css includes -->
+        // charades app css includes
         loadRelativeStyle('charades-ffa-dev/src/style.css');
 
-        <!-- closure calculated deps for charades.App -->
+        // closure calculated deps for charades.App
         loadRelativeScript('charades-ffa-dev/src/charades-deps.js');
 
-        <!-- this is just the charades.App loader
-             the app code won't execute until everything else on this page is loaded -->
+        // this is just the charades.App loader
+        // the app code won't execute until everything else on this page is loaded
         loadRelativeScript('charades-ffa-dev/src/charades.js');
         </script>
       </head>
