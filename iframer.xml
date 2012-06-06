@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!-- Copyright 2012 Google Inc. All Rights Reserved -->
+  <Module>
+    <ModulePrefs title="Proxied Hangout" height="200" width="550">
+    <Require feature="dynamic-height"/>
+    <Require feature="rpc"/>
+          <Require feature="views" />
+  </ModulePrefs>
+  <Content type="html"><![CDATA[
+    <!DOCTYPE html>
+      <script>
+        function relayMessages() {
+          // this function is called for all cross-domain calls: from the container to the hangout IFRAME
+          // and from the child IFRAME to the hangout IFRAME
+          var sendToId;
+          if (this['f'] == "..") {
+            // "this" is bound to an object that contains the full request.
+            // "f" == ".." means that the message is coming from the top-level window, eg the hangout itself.
+            // This is the scenario where you want to pass the message to the child IFRAME.
+            sendToId = "googleplus_target";
+          } else {
+            sendToId = "..";  // otherwise the message is coming from the child IFRAME. Relay it to parent = ".."
+          }
+          var rpcArgs = [
+            sendToId,   // the place you want to send the message
+            this["s"],     // the service name of the originating request
+            null            // the callback method, not used here.
+          ].concat(this["a"]);  // the arguments originally passed to the service.
+
+          // At this point you're in the hangout IFRAME and you have intercepted a request in either direction.
+          // Send it along to its intended recipient. Eg. if the child IFRAME sent a message, we'd be sending
+          // to ".." here with the same service name and arguments. The child IFRAME would send this by using
+          // the hangout.js lib as normal.
+          gadgets.rpc.call.apply(gadgets.rpc, rpcArgs);
+        }
+
+        (function() {
+          // target is the hash without the '#'
+          var target = window.location.hash.substr(1);
+          // This is what tells the rpc library to intercept everything that comes to the library and pass it to the handler.
+          gadgets.rpc.registerDefault(relayMessages);
+
+          // This builds the inner IFRAME that exists in the desired domain
+          var ifrm = document.createElement("IFRAME");
+          var ifrm_id = "googleplus_target";
+          ifrm.setAttribute("src", target + "?parent=" +
+              encodeURIComponent(window.location.href));        
+          ifrm.style.width = 100+"%";
+
+          // ifrm.style.height = 1000+"px"
+
+          ifrm.setAttribute("id", ifrm_id);
+          ifrm.setAttribute("name", ifrm_id);
+          ifrm.setAttribute("scrolling","yes");
+          ifrm.setAttribute("frameborder","0");
+          ifrm.setAttribute("border","0");
+          document.body.appendChild(ifrm);
+
+          // This allows us to receive RPCs from the new IFRAME
+          gadgets.rpc.setupReceiver(ifrm_id);
+        })();
+      </script>
+  ]]></Content>
+  </Module>
+
+
