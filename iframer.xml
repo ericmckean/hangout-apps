@@ -7,7 +7,6 @@
           <Require feature="views" />
   </ModulePrefs>
   <Content type="html"><![CDATA[
-    <!DOCTYPE html>
       <script>
         function relayMessages() {
           // this function is called for all cross-domain calls: from the container to the hangout IFRAME
