@@ -76,8 +76,6 @@ function loadRelativeStyle(path) {
         loadRelativeStyle('googui/css/googui-components-2.css');
         loadRelativeScript('googui/src/googui.js');
 
-        loadRelativeScript('closure-library/closure/goog/base.js');
-
         // charades app css includes
         loadRelativeStyle('charades-ffa-dev/src/style.css');
 
