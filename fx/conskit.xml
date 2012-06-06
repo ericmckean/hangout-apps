@@ -92,7 +92,41 @@ function fireGAEvent(appName, action, label, value)
 
   </div>
   
-  <div id='constructor'>
+  <div id="constructor">
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-edit">Edit</a></li>
+        <li><a href="#tabs-test">Test</a></li>
+        <li><a href="#tabs-publish">Publish</a></li>
+      </ul>
+      <div id="tabs-edit">
+        <div id="left-pane">
+          <div class="buttons">
+            <div class="left">
+              <a id="delete-button" href="#">Delete</a>
+            </div>
+            <div class="right">
+              <a id="new-category-button" href="#">New Category</a>
+              <a id="new-effect-button" href="#">New Effect</a>
+            </div>
+            <div style="clear: both"></div>
+          </div>
+          <div id="tree-container">
+          </div>
+        </div>
+        <div id="right-pane">
+          <div id="preview-feed-container">
+          </div>
+          <div id="edit-form">
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
+      <div id="tabs-test">
+      </div>
+      <div id="tabs-publish">
+      </div>
+    </div>
   </div>
 
 </body>
