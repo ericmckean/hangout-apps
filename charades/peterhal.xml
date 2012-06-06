@@ -81,12 +81,12 @@ function loadRelativeStyle(path) {
         // charades app css includes
         loadRelativeStyle('charades-ffa-dev/src/style.css');
 
-        // closure calculated deps for charades.App
-        loadRelativeScript('charades-ffa-dev/src/charades-deps.js');
-
         // this is just the charades.App loader
         // the app code won't execute until everything else on this page is loaded
-        loadRelativeScript('charades-ffa-dev/src/charades.js');
+        loadRelativeScript('charades-ffa-dev/out/charades.js');
+        </script>
+        <script>
+          charades.start();
         </script>
       </head>
       <body>
