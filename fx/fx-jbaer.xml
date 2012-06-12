@@ -80,6 +80,9 @@ function fireGAEvent(appName, action, label, value)
     <div id="title-bar">
     </div>
 
+    <div id="category-bar">
+    </div>
+
     <div id="effects-list" class="scrollBarInner">
     </div>
 
