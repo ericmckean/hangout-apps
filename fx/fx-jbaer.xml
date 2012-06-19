@@ -86,6 +86,9 @@ function fireGAEvent(appName, action, label, value)
     <div id="effects-list">
     </div>
 
+    <div id="remove-all-bar">
+    </div>
+    
     <div id="bottom-button-bar">
     </div>
 
