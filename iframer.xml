@@ -7,7 +7,9 @@
   </ModulePrefs>
   <Content type="html">
     <![CDATA[
-      <script src="//www.corp.google.com/~peterhal/hangout-apps/iframer.js">
+      <script src="//www.corp.google.com/~peterhal/hangout-apps/iframer/iframer-util.js">
+      </script>
+      <script src="//www.corp.google.com/~peterhal/hangout-apps/iframer/iframer.js">
       </script>
     ]]>
   </Content>
