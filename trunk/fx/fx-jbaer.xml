@@ -51,7 +51,7 @@ function fireGAEvent(appName, action, label, value)
     if (params[i].indexOf(prefix) == 0) {
       var hangoutUrl =
         decodeURIComponent(params[i].substr(prefix.length));
-      var hangoutJSUrl = hangoutUrl + '/hangouts/api/hangout.js';
+      var hangoutJSUrl = hangoutUrl + '/hangouts/api/hangout.js?v=1.1';
       document.write('<link rel="stylesheet" href="' + gResourceRoot 
         + 'googui/css/googui-components-1.css" type="text/css" media="all" />');
       document.write('<link rel="stylesheet" href="' + gResourceRoot 
