@@ -9,35 +9,15 @@ var gadgetData;
 var parentUrl;
 
 (function () {
-  function writeTag(tag) {
-    document.write(tag);
-  }
-
-  function loadScript(url) {
-    writeTag('<script type="text/javascript" src="' + url +
-        '"><' + '/script>'); // Split script tag so it isn’t used as end of tag.
-  }
-
-  function getUrlParams() {
-    var result = {};
-    var paramRegex = /([^&=]+)=?([^&]*)/g;
-    var decode = function(value) {
-      var addRegex = /\+/g;
-      return decodeURIComponent(value.replace(addRegex, " "));
-    };
-    var allParams = window.location.search.substring(1); // Strip leading ?.
-    while (match = paramRegex.exec(allParams)) {
-      result[decode(match[1])] = decode(match[2]);
-    }
-    return result;
-  }
-  var urlParams = getUrlParams();
+  var urlParams = getUrlParams(window.location.href);
 
   gadgetData = urlParams['gd'];
   parentUrl = urlParams['parent'];
+  var parentParams = getUrlParams(parentUrl);
+  var hangoutServer = parentParams.parent;
 
-  loadScript(urlParams.hangoutServer + '/talkgadget/apps/gadgets/js/rpc.js');
-  loadScript(urlParams.hangoutServer + '/hangouts/api/hangout.js?v=1.0');
+  loadScript(hangoutServer + '/talkgadget/apps/gadgets/js/rpc.js');
+  loadScript(hangoutServer + '/hangouts/api/hangout.js?v=1.0');
 }());
 
 </script>
