@@ -59,10 +59,10 @@ function fireGAEvent(appName, action, label, value)
       document.write('<script type="text/javascript" src="' + gResourceRoot 
         + 'googui/src/googui.js"></script>');
       document.write('<link rel="stylesheet" href="' + gResourceRoot 
-        + 'fx/css/fx.css" type="text/css" media="all" />');
+        + 'fx/app/css/fx.css" type="text/css" media="all" />');
       document.write('<script type="text/javascript" src="' + hangoutJSUrl + '"></script>');
       document.write('<script type="text/javascript" src="' + gResourceRoot 
-        + 'fx/src/fx.js"></script>');
+        + 'fx/app/src/fx.js"></script>');
       break;
     }
   }
