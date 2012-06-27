@@ -1,4 +1,18 @@
 /**
+ * Extracts the scheme, host and path of an Url.
+ * @param {string} url The url to extract the parameters from.
+ * @return {string} The root of the url.
+ */
+function getUrlRoot(url) {
+  var startIndex =  url.indexOf('?') + 1;
+  if (startIndex > 0) {
+    return url.substring(0, startIndex - 1);
+  }
+  return url;
+}
+
+
+/**
  * Extracts url parameters of the containing window/iframe into an object.
  * @param {string} url The url to extract the parameters from.
  * @return {!Object} An object containing the paarameters as name/value pairs.

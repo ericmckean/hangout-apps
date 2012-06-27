@@ -35,19 +35,19 @@ var onClientReady;
     // Get the Url of the xml file including the params.
     var fullApplicationUrl = gadgets.views.getParams()['applicationUrl'];
     var target = getUrlParams(fullApplicationUrl).appUrl;
+    var targetRoot = getUrlRoot(target);
+    var targetParams = getUrlParams(target);
 
     // The appData.
-    var gd = gadgets.views.getParams()['appData'];
+    targetParams.gd = gadgets.views.getParams()['appData'];
+    targetParams.parent = window.location.href;
 
     // This builds the inner IFRAME that exists in the desired domain
     var ifrm = document.createElement('IFRAME');
     var ifrm_id = 'googleplus_target';
     // TOOD(peterhal): Oauth tokens.
     ifrm.setAttribute('src',
-        target + encodeUrlParams({
-          parent: window.location.href,
-          gd: gd
-        }));
+        targetRoot + encodeUrlParams(targetParams));
     ifrm.style.width = '100%';
 
     // TODO(peterhal): What is the correct height?
