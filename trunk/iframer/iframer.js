@@ -56,8 +56,11 @@ var onClientReady;
     ifrm.setAttribute('id', ifrm_id);
     ifrm.setAttribute('name', ifrm_id);
     ifrm.setAttribute('scrolling','no');
+    ifrm.setAttribute('marginwidth','0');
+    ifrm.setAttribute('marginheight','0');
     ifrm.setAttribute('frameborder','0');
-    ifrm.setAttribute('border','0');
+    ifrm.setAttribute('vspace','0');
+    ifrm.setAttribute('hspace','0');
     document.body.appendChild(ifrm);
 
     // This allows us to receive RPCs from the new IFRAME
