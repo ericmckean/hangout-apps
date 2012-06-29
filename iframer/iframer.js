@@ -50,8 +50,8 @@ var onClientReady;
         targetRoot + encodeUrlParams(targetParams));
     ifrm.style.width = '100%';
 
-    // TODO(peterhal): What is the correct height?
     ifrm.style.height = '100%';
+    document.body.style.height = '100%';
 
     ifrm.setAttribute('id', ifrm_id);
     ifrm.setAttribute('name', ifrm_id);
