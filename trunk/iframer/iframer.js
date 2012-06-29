@@ -55,7 +55,7 @@ var onClientReady;
 
     ifrm.setAttribute('id', ifrm_id);
     ifrm.setAttribute('name', ifrm_id);
-    ifrm.setAttribute('scrolling','yes');
+    ifrm.setAttribute('scrolling','no');
     ifrm.setAttribute('frameborder','0');
     ifrm.setAttribute('border','0');
     document.body.appendChild(ifrm);
