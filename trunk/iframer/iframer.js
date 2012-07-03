@@ -72,7 +72,7 @@ var onClientReady;
   }
   function onReady() {
     // Workarond for Firefox.
-    document.body.parentElement.style.height = '100%';
+    document.documentElement.style.height = '100%';
     setupRpcRelay();
     window.setTimeout(createIFrame, 1);
   }
