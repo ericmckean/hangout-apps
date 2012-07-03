@@ -71,6 +71,8 @@ var onClientReady;
     gadgets.rpc.registerDefault(relayMessages);
   }
   function onReady() {
+    // Workarond for Firefox.
+    document.style.height = '100%';
     setupRpcRelay();
     window.setTimeout(createIFrame, 1);
   }
