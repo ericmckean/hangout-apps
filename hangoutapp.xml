@@ -35,6 +35,7 @@
       var query  = '';
       if (params.hl) query = appendParams(query, 'hl', params.hl);
       if (params.jsmode) query = appendParams(query, 'jsmode', params.jsmode);
+      debugger;
       
       var host = params.parent;
       var devConsoleUrl = gadgets.views.getParams()['applicationUrl'];
