@@ -58,16 +58,6 @@ function writeTag(tag) {
 }
 
 
-function handleAuthResult(res) {
-  if (res) {
-    token = gapi.auth.getToken().access_token;
-    console.log('token', token);
-    window.setTimeout(createIFrame, 1);
-  } else {
-    console.log('failed auth result: ' + res);
-  }
-}
-
 function getAuth() {
   gapi.auth.authorize({
       client_id: null,

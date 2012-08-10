@@ -29,7 +29,7 @@ var authToken = 'NONE';
     gadgets.rpc.call.apply(gadgets.rpc, rpcArgs);
   }
 
-  /** 
+  /**
    * Creates the nested iframe.
    */
   function createIFrame() {
@@ -77,6 +77,16 @@ var authToken = 'NONE';
     document.documentElement.style.height = '100%';
     setupRpcRelay();
     window.setTimeout(getAuth, 1);
+  }
+
+  function handleAuthResult(res) {
+    if (res) {
+      token = gapi.auth.getToken().access_token;
+      console.log('token', token);
+      window.setTimeout(createIFrame, 1);
+    } else {
+      console.log('failed auth result: ' + res);
+    }
   }
 
   onClientReady = onReady;
