@@ -42,7 +42,8 @@ var authToken = 'NONE';
     // The appData.
     targetParams.gd = gadgets.views.getParams()['appData'];
     targetParams.parent = window.location.href;
-    targetParams.token = getOAuthToken();
+    targetParams.token = authToken;
+
     // This builds the inner IFRAME that exists in the desired domain
     var ifrm = document.createElement('IFRAME');
     var ifrm_id = 'googleplus_target';
@@ -75,7 +76,7 @@ var authToken = 'NONE';
     // Workarond for Firefox.
     document.documentElement.style.height = '100%';
     setupRpcRelay();
-    window.setTimeout(getAuth(createIFrame), 1);
+    window.setTimeout(getAuth, 1);
   }
 
   onClientReady = onReady;
