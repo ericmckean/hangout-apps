@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Charades">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <head>
+        <script>
+function writeTag(tag) {
+  document.write(tag);
+}
+
+function loadScript(url) {
+  writeTag('<script type="text/javascript" src="' + url +
+      '"><' + '/script>'); // Split script tag so it isn’t used as end of tag.
+}
+
+function loadStyle(url) {
+  writeTag('<link rel="stylesheet" type="text/css" href="' + url + '" />');
+}
+
+var resourceRoot = '//www.corp.google.com/~peterhal/google-hangouts-apps/';
+
+function relativeToAbsolute(path) {
+  return resourceRoot + path;
+}
+
+function loadRelativeScript(path) {
+  loadScript(relativeToAbsolute(path));
+}
+
+function loadRelativeStyle(path) {
+  loadStyle(relativeToAbsolute(path));
+}
+
+        // Extracts url parameters of the containing window/iframe into an object.
+        function getUrlParams() {
+          var result = {};
+          var paramRegex = /([^&=]+)=?([^&]*)/g;
+          var decode = function(value) {
+            var addRegex = /\+/g;
+            return decodeURIComponent(value.replace(addRegex, " "));
+          };
+          var allParams = window.location.search.substring(1); // Strip leading ?.
+          while (match = paramRegex.exec(allParams)) {
+            result[decode(match[1])] = decode(match[2]);
+          }
+          return result;
+        }
+        var urlParams = getUrlParams();
+
+        // Load hangout.js from the hangout server we are running in.
+        var apiVersion = '?v=1.1'; // Note: Version number is optional.
+        var hangoutJsUrl = urlParams.parent + '/hangouts/_/api/hangout.js' + apiVersion;
+
+        // Use document.write so that hangout.js is executed before subsequent script
+        // blocks begin.
+        loadScript(hangoutJsUrl);
+
+        // End the script block. The rest of the app likely depends on gapi.hangout which
+        // won’t be available until the start of the next script block.
+        </script>
+
+        <!-- jquery is required for googui and modal dialog overlay -->
+        <script type="text/javascript" src="//www.google.com/jsapi"></script>
+        <script type="text/javascript">google.load("jquery", "1.3.2");</script>
+
+        <script>
+        // jquery tools provides the overlay used for modal dialogs
+        loadRelativeScript('charades-ffa-dev/src/jquery.tools.min.js');
+
+        // googui
+        loadRelativeStyle('googui/css/googui-components-1.css');
+        loadRelativeStyle('googui/css/googui-components-2.css');
+        loadRelativeScript('googui/src/googui.js');
+
+        // charades app css includes
+        loadRelativeStyle('charades-ffa-dev/src/style.css');
+
+        // this is just the charades.App loader
+        // the app code won't execute until everything else on this page is loaded
+        loadRelativeScript('charades-ffa-dev/out/charades.js');
+        </script>
+        <script>
+          charades.start();
+        </script>
+      </head>
+      <body>
+        <div id="video"></div>
+        <div id="scores"></div>
+        <div id="title"></div>
+        <div id="controls"></div>
+        <div id="content"></div>
+      </body>
+     ]]>
+  </Content>
+</Module>

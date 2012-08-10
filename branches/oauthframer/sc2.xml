@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="sc1">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <head>
+        <script>
+// Extracts url parameters of the containing window/iframe into a name/value
+// pairs.
+function getUrlParams() {
+  var result = {};
+  var paramRegex = /([^&=]+)=?([^&]*)/g;
+  var decode = function(value) {
+    var addRegex = /\+/g;
+    return decodeURIComponent(value.replace(addRegex, " "));
+  };
+  var allParams = window.location.search.substring(1); // strip leading ?
+  while (match = paramRegex.exec(allParams)) {
+    result[decode(match[1])] = decode(match[2]);
+  }
+  return result;
+}
+var urlParams = getUrlParams();
+
+// Load hangout.js from the hangout server we are running in.
+var hangoutJsUrl = urlParams.parent + '/hangouts/api/hangout.js?v=vhead';
+
+// Use document.write so that hangout.js is executed before subsequent script
+// blocks begin.
+document.write('<script type="text/javascript" src="' + hangoutJsUrl +
+    '"></' + 'script>');
+        </script>
+        <script>
+gapi.hangout.onApiReady.add(function() {
+
+gapi.hangout.hideApp();
+
+gadgets.rpc.register('hangout_screencasting_event', function(event) {
+  switch (event) {
+  case 'show':
+  case 'start':
+    break;
+  case 'cancel':
+  case 'stop':
+    gapi.hangout.exitApp();
+    break;
+  default:
+    throw new Error('Unknown screen casting event: ' + event);
+  }
+});
+gadgets.rpc.call.apply(null, [null, 'hangout_start_screencast', undefined]);
+
+});
+        </script>
+      </head>
+    ]]>
+  </Content>
+</Module>

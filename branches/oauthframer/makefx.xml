@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *	
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+-->
+	<ModulePrefs title="Create FX">
+		<Require feature="rpc" />
+		<Require feature="views" />\
+		<Require feature="locked-domain" /> \
+	</ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+<html>
+<style type="text/css">
+<!--
+.button {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+  background: -moz-linear-gradient(top, #fff, #ddd);  
+  border: 1px solid #bbb;
+}
+
+.button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333)); 
+	background: -moz-linear-gradient(bottom, #ddd, #aaa); }
+
+-->
+</style>
+<head>
+	<title>Hangout Media Starter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
+</head>
+
+<body>
+
+<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.1" ></script>
+<script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/makefx/html5slider.js"></script>
+
+Display Category Name:
+<input type="text" id="catNameInput" value="My New Category" />
+<span style="font-size:smaller">(if using next field for new cateogyr()</span>
+<br/>
+
+Display Category Id:
+<input type="text" id="catIdInput" value="mynewcat" />
+<br />
+
+Exclusive Category Id:
+<input type="text" id="exCatIdInput" value="headwear" />
+<span style="font-size: smaller">(will be a select list)</span>
+<br />
+
+Effect Name:
+<input type="text" id="nameInput" value="Something Cool" />
+<br/>
+
+Icon URI:
+<input type="text" id="iconUriInput" value="http://www.corp.google.com/~jbaer/google-hangouts-apps/fx/overlays/COB_Hair-icon.png" />
+<input type="button" class="button" id="loadIconButton" value="Load" />
+<br/>
+
+Overlay Image URI:
+<input type="text" id="imageUriInput" value="http://www.corp.google.com/~jbaer/google-hangouts-apps/fx/overlays/COB_Hair.png" />
+<input type="button" class="button" id="loadImageButton" value="Load" />
+<br/>
+
+Feature:
+<select id="featureSelect">
+  <option>left_eye_center</option>
+  <option>left_eyebrow_left</option>
+  <option>left_eyebrow_right</option>
+  <option>lip_lower</option>
+  <option>mouth_center</option>
+  <option>mouth_left</option>
+  <option>mouth_right</option>
+  <option selected>nose_root</option>
+  <option>nose_tip</option>
+  <option>right_eye_center</option>
+  <option>right_eyebrow_left</option>
+  <option>right_eyebrow_right</option>
+  <option>lip_upper</option>
+</select>
+<br/>
+
+Rotate With Face:
+<input type="checkbox" id="rotateWithFaceCheckbox" checked />
+<br/>
+
+Rotation:
+<input id="rotationSlider" type="range" min="0.0" max="6.25" value="0.0" step="0.05" />
+<span id="rotationTxt">0</span>
+<br/>
+
+Scale With Face:
+<input type="checkbox" id="scaleWithFaceCheckbox" checked />
+<br/>
+
+Scale:
+<input id="scaleSlider" type="range" min="0.10" max="2.0" value="1.0" step="0.05" />
+<span id="scaleTxt">1.0</span>
+<br/>
+
+X-Offset:
+<input id="xOffsetSlider" type="range" min="-1.0" max="1.0" value="0.0" step="0.01" />
+<span id="xOffsetTxt">0.0</span>
+<br/>
+
+Y-Offset:
+<input id="yOffsetSlider" type="range" min="-1.0" max="1.0" value="0.0" step="0.01" />
+<span id="yOffsetTxt">0.0</span>
+<br/>
+
+<input type="button" class="button" id="updateUriButton" value="Update URI" />
+<br/>
+<textarea id="hangoutUri" cols="40" rows="10"></textarea>
+
+<script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/makefx/makefx.js"></script>
+
+</body>
+    ]]>
+  </Content>
+</Module>

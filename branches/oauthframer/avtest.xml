@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="avtest">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+    <head>
+      <link rel="stylesheet" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/avtest/avtest.css" />
+
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script src="//hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0"></script>
+      <script src="//www.corp.google.com/~dmauldin/google-hangouts-apps/avtest/avtest.js"></script>
+    </head>
+    <body>
+      <div id="content"></div>
+    </body>
+    ]]>
+  </Content>
+</Module>
