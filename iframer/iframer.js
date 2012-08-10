@@ -81,8 +81,8 @@ var authToken = 'NONE';
 
   function handleAuthResult(res) {
     if (res) {
-      token = gapi.auth.getToken().access_token;
-      console.log('token', token);
+      authToken = gapi.auth.getToken().access_token;
+      console.log('authToken', authToken);
       window.setTimeout(createIFrame, 1);
     } else {
       console.log('failed auth result: ' + res);
