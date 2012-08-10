@@ -89,6 +89,15 @@ var authToken = 'NONE';
     }
   }
 
+  function getAuth() {
+    gapi.auth.authorize({
+        client_id: null,
+        scope: 'https://www.googleapis.com/auth/drive',
+        immediate: true
+      },
+      handleAuthResult);
+  }
+
   onClientReady = onReady;
   loadScript('https://apis.google.com/js/client.js?onload=onClientReady');
 })();

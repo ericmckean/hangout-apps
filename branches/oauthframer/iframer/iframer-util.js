@@ -57,16 +57,6 @@ function writeTag(tag) {
   document.write(tag);
 }
 
-
-function getAuth() {
-  gapi.auth.authorize({
-      client_id: null,
-      scope: 'https://www.googleapis.com/auth/drive',
-      immediate: true
-    },
-    handleAuthResult);
-}
-
 /**
  * Loads a javascript script by url.
  * @param {string} url The url of the string to load.
