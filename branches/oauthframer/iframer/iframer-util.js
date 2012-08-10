@@ -48,7 +48,6 @@ function encodeUrlParams(params) {
   return result;
 }
 
-
 /**
  * Writes a tag to the document.
  * @param {string} tag The tag to write.
