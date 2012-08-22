@@ -1,4 +1,5 @@
 var onClientReady;
+var authToken = 'NONE';
 
 (function() {
   /**
@@ -28,7 +29,7 @@ var onClientReady;
     gadgets.rpc.call.apply(gadgets.rpc, rpcArgs);
   }
 
-  /** 
+  /**
    * Creates the nested iframe.
    */
   function createIFrame() {
@@ -41,6 +42,7 @@ var onClientReady;
     // The appData.
     targetParams.gd = gadgets.views.getParams()['appData'];
     targetParams.parent = window.location.href;
+    targetParams.token = authToken;
 
     // This builds the inner IFRAME that exists in the desired domain
     var ifrm = document.createElement('IFRAME');
@@ -55,26 +57,47 @@ var onClientReady;
 
     ifrm.setAttribute('id', ifrm_id);
     ifrm.setAttribute('name', ifrm_id);
-    ifrm.setAttribute('scrolling','no');
-    ifrm.setAttribute('marginwidth','0');
-    ifrm.setAttribute('marginheight','0');
-    ifrm.setAttribute('frameborder','0');
-    ifrm.setAttribute('vspace','0');
-    ifrm.setAttribute('hspace','0');
+    ifrm.setAttribute('scrolling', 'no');
+    ifrm.setAttribute('marginwidth', '0');
+    ifrm.setAttribute('marginheight', '0');
+    ifrm.setAttribute('frameborder', '0');
+    ifrm.setAttribute('vspace', '0');
+    ifrm.setAttribute('hspace', '0');
     document.body.appendChild(ifrm);
 
     // This allows us to receive RPCs from the new IFRAME
     gadgets.rpc.setupReceiver(ifrm_id);
   }
+
   function setupRpcRelay() {
     // Intercept all rpc messages.
     gadgets.rpc.registerDefault(relayMessages);
   }
+
   function onReady() {
     // Workarond for Firefox.
     document.documentElement.style.height = '100%';
     setupRpcRelay();
-    window.setTimeout(createIFrame, 1);
+    window.setTimeout(getAuth, 1);
+  }
+
+  function handleAuthResult(res) {
+    if (res) {
+      authToken = gapi.auth.getToken().access_token;
+      window.setTimeout(createIFrame, 1);
+    } else {
+      console.log('failed auth result: ' + res);
+    }
+  }
+
+  // TODO fix this to use an rpc call from the iframe back to here
+  function getAuth() {
+    gapi.auth.authorize({
+        client_id: null,
+        scope: 'https://www.googleapis.com/auth/drive',
+        immediate: true
+      },
+      handleAuthResult);
   }
 
   onClientReady = onReady;
