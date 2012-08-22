@@ -11,8 +11,6 @@ var onClientReady;
 
   var authScopes = targetParams.authScopes;
 
-  console.log('authScopes', authScopes);
-
   /**
    * Relays messages to/from the iframe.
    * This function is called from the container to the hangout IFRAME
@@ -94,7 +92,6 @@ var onClientReady;
   function handleAuthResult(res) {
     if (res) {
       authToken = gapi.auth.getToken().access_token;
-      console.log('authToken', authToken);
       window.setTimeout(createIFrame, 1);
     } else {
       console.log('failed auth result: ' + res);
@@ -102,7 +99,6 @@ var onClientReady;
   }
 
   function getAuth() {
-    console.log('calling gapi.auth.authorize for scopes', authScopes);
     gapi.auth.authorize({
         client_id: null,
         scope: authScopes,
