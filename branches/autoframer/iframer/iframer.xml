@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="Proxied Hangout">
+    <Require feature="dynamic-height"/>
+    <Require feature="rpc"/>
+    <Require feature="views" />
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <!DOCTYPE html>
+      <script src="//hangout-apps.googlecode.com/svn/branches/oauthframer/iframer/iframer-util.js"></script>
+      <script src="//hangout-apps.googlecode.com/svn/branches/oauthframer/iframer/iframer.js"></script>
+    ]]>
+  </Content>
+</Module>
+
+

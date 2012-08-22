@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Hangout Poke">
+    <Require feature="rpc" />
+    <Require feature="views" />\
+    <Require feature="locked-domain" /> \
+  </ModulePrefs>
+  <Content type="html"><![CDATA[     
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Hangout FX App</title>
+      <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
+
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://www.corp.google.com/kennedy/spec/assets/css/kd_components.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://www.corp.google.com/kennedy/spec/assets/css/kd_components_google.css" type="text/css" media="all" />
+
+</head>
+
+<body>
+
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
+
+<script src="https://www.corp.google.com/~peterhal/app-demos/google-hangouts-apps/fx/src/googui.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.1" ></script>
+
+
+<div id="app-container" style="width:243px; border:1px solid #a0adbb">
+
+<div id="overlay-controls" style="width:239px;padding:2px;height:31px;border-bottom:1px solid #a0adbb">
+</div>
+
+<div id="sound-broadcast" style="width:239px;padding:2px;height:31px;border-bottom:1px solid #a0adbb">
+</div>
+
+<div id="participant-list" style="height:150px;scroll:auto">
+</div>
+
+<div id="messageDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
+</div>
+
+<div id="giftDisplay" style="width:235px;border-top:1px solid #a0adbb;padding:4px;display:none">
+</div>
+
+</div>
+
+<script src="https://www.corp.google.com/~peterhal/app-demos/google-hangouts-apps/fx/src/fx.js"></script>
+
+
+]]>
+</Content>
+
+</Module>

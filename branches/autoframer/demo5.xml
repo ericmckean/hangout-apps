@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="App1">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <head>
+        <link rel="stylesheet" type="text/css" href="//www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa/src/style.css" />
+        <script src="https://www.corp.google.com/~dmauldin/closure-library/closure/goog/base.js"></script>
+        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa/src/requires.js"></script>
+        <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=0.2"></script>
+        <script src="https://www.corp.google.com/~dmauldin/google-hangouts-apps/charades-ffa/src/charades.js"></script>
+      </head>
+    ]]>
+  </Content>
+</Module>

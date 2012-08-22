@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Hangout App Loader">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+    <Require feature="content-rewrite">
+      <Param name="exclude-urls">.*</Param>
+    </Require>
+  </ModulePrefs>
+  <Content type="html"><![CDATA[
+    <script>
+      // Extracts parameters of the url into an object.
+      function getUrlParams(url) {
+        var result = {};
+        var paramRegex = /([^&=]+)=?([^&]*)/g;
+        var decode = function(value) {
+          var addRegex = /\+/g;
+          return decodeURIComponent(value.replace(addRegex, " "));
+        };
+        var allParams = url.substring(url.indexOf('?') + 1);
+        while (match = paramRegex.exec(allParams)) {
+          result[decode(match[1])] = decode(match[2]);
+        }
+        return result;
+      }
+
+      function appendParams(query, name, value) {
+        var result = query;
+        result += query ? '&' : '?';
+        result += name + '=' + value;
+        return result;       
+      }
+      var params = getUrlParams(window.location.href);
+      
+      var query  = '';
+      if (params.hl) query = appendParams(query, 'hl', params.hl);
+      if (params.jsmode) query = appendParams(query, 'jsmode', params.jsmode);
+      debugger;
+      
+      var host = params.parent;
+      var devConsoleUrl = gadgets.views.getParams()['applicationUrl'];
+      var app = getUrlParams(devConsoleUrl).app;
+
+      if (!app) {
+        throw 'Missing app parameter in dev console url.';
+      }
+
+      document.write('<script type="text/javascript" src="' + host +
+          '/talkgadget/hangoutapps/' + app + '.js' + query + '"><' +
+          '/script>');
+      document.write('<link type="text/css" rel="stylesheet" href="' + host +
+          '/talkgadget/hangoutapps/' + app + '.css' + query + '"><' +
+          '/link>');
+    </script>
+  ]]></Content>
+</Module>

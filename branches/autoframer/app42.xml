@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Hangout Effects App">
+    <Require feature="rpc" />
+    <Require feature="views" />
+    <Require feature="locked-domain" />
+  </ModulePrefs>
+
+<Content type="html"><![CDATA[     
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Hangout FX App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset = iso - 8859 - 1 " />
+
+<script type="text/javascript" charset="utf-8"> 
+<!--
+// update this to deploy
+var gResourceRoot = 'https://www.corp.google.com/~peterhal/google-hangouts-apps/';
+-->
+</script>
+
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script type="text/javascript">google.load("jqueryui", "1.8.16");</script>
+
+
+<script type="text/javascript" charset="utf-8"> 
+<!--
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-29849755-1']);
+_gaq.push(['_trackPageview']);
+ 
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+function fireGAEvent(appName, action, label, value)
+{
+  if(_gaq) _gaq.push(['_trackEvent', appName, action, label, value]);
+}
+
+(function() {
+  var params = window.location.search.split('&');
+  var prefix = 'parent=';
+  for (var i = 0; i < params.length; i++) {
+    if (params[i].indexOf(prefix) == 0) {
+      var hangoutUrl =
+        decodeURIComponent(params[i].substr(prefix.length));
+      var hangoutJSUrl = hangoutUrl + '/hangouts/api/hangout.js';
+      // TODO: Remove this hack once the URL redirect fix is in.
+      // TODO: Update to 1.0 once it is available.
+      var hangoutJSUrl = 'https://talkgadget.google.com/hangouts/api/hangout.js?v=0.2';
+      document.write('<link rel="stylesheet" href="' + gResourceRoot 
+        + 'googui/css/googui-components-1.css" type="text/css" media="all" />');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot 
+        + 'googui/css/googui-components-2.css" type="text/css" media="all" />');
+      document.write('<script type="text/javascript" src="' + gResourceRoot 
+        + 'googui/src/googui.js"></script>');
+      document.write('<link rel="stylesheet" href="' + gResourceRoot 
+        + 'fx/css/fx.css" type="text/css" media="all" />');
+      document.write('<script type="text/javascript" src="' + hangoutJSUrl + '"></script>');
+      document.write('<script type="text/javascript" src="' + gResourceRoot 
+        + 'fx/src/fx.js"></script>');
+      break;
+    }
+  }
+})();
+
+-->
+</script> 
+
+</head>
+
+<body>
+
+  <div id="app-container">
+
+    <div id="title-bar">
+    </div>
+
+    <div id="effects-list" class="scrollBarInner">
+    </div>
+
+    <div id="bottom-button-bar">
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+
+]]>
+</Content>
+
+</Module>

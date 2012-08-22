@@ -1,0 +1,27 @@
+<html>
+<head>
+</head>
+<body>
+
+<script src="//www.corp.google.com/~peterhal/hangout-apps/iframer/iframer-util.js"></script>
+<script type="text/javascript">
+
+var gadgetData;
+var parentUrl;
+
+(function () {
+  var urlParams = getUrlParams(window.location.href);
+
+  gadgetData = urlParams['gd'];
+  parentUrl = urlParams['parent'];
+  var parentParams = getUrlParams(parentUrl);
+  var hangoutServer = parentParams.parent;
+
+  loadScript(hangoutServer + '/talkgadget/apps/gadgets/js/rpc.js');
+  loadScript(hangoutServer + '/hangouts/api/hangout.js?v=1.0');
+}());
+
+</script>
+<div>Hello Hangouts Iframer</div>
+</body>
+</html>
