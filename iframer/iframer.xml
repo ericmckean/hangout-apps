@@ -8,8 +8,8 @@
   <Content type="html">
     <![CDATA[
       <!DOCTYPE html>
-      <script src="//hangout-apps.googlecode.com/svn/branches/oauthframer/iframer/iframer-util.js"></script>
-      <script src="//hangout-apps.googlecode.com/svn/branches/oauthframer/iframer/iframer.js"></script>
+      <script src="//hangout-apps.googlecode.com/svn/branches/autoframer/iframer/iframer-util.js"></script>
+      <script src="//hangout-apps.googlecode.com/svn/branches/autoframer/iframer/iframer.js"></script>
     ]]>
   </Content>
 </Module>
