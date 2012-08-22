@@ -1,16 +1,7 @@
 var onClientReady;
+var authToken = 'NONE';
 
 (function() {
-  var authToken;
-
-  // Get the Url of the xml file including the params.
-  var fullApplicationUrl = gadgets.views.getParams()['applicationUrl'];
-  var target = getUrlParams(fullApplicationUrl).appUrl;
-  var targetRoot = getUrlRoot(target);
-  var targetParams = getUrlParams(target);
-
-  var authScopes = targetParams.authScopes;
-
   /**
    * Relays messages to/from the iframe.
    * This function is called from the container to the hangout IFRAME
@@ -42,16 +33,21 @@ var onClientReady;
    * Creates the nested iframe.
    */
   function createIFrame() {
+    // Get the Url of the xml file including the params.
+    var fullApplicationUrl = gadgets.views.getParams()['applicationUrl'];
+    var target = getUrlParams(fullApplicationUrl).appUrl;
+    var targetRoot = getUrlRoot(target);
+    var targetParams = getUrlParams(target);
+
     // The appData.
     targetParams.gd = gadgets.views.getParams()['appData'];
     targetParams.parent = window.location.href;
-    if (authScopes) {
-      targetParams.token = authToken;
-    }
+    targetParams.token = authToken;
 
     // This builds the inner IFRAME that exists in the desired domain
     var ifrm = document.createElement('IFRAME');
     var ifrm_id = 'googleplus_target';
+    // TOOD(peterhal): Oauth tokens.
     ifrm.setAttribute('src',
         targetRoot + encodeUrlParams(targetParams));
     ifrm.style.width = '100%';
@@ -82,11 +78,7 @@ var onClientReady;
     // Workarond for Firefox.
     document.documentElement.style.height = '100%';
     setupRpcRelay();
-    if (authScopes) {
-      window.setTimeout(getAuth, 1);
-    } else {
-      window.setTimeout(createIFrame, 1);
-    }
+    window.setTimeout(getAuth, 1);
   }
 
   function handleAuthResult(res) {
@@ -98,10 +90,11 @@ var onClientReady;
     }
   }
 
+  // TODO fix this to use an rpc call from the iframe back to here
   function getAuth() {
     gapi.auth.authorize({
         client_id: null,
-        scope: authScopes,
+        scope: 'https://www.googleapis.com/auth/drive',
         immediate: true
       },
       handleAuthResult);
