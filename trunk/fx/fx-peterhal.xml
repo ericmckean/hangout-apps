@@ -84,7 +84,7 @@ function getUrlParams(url) {
 })();
 
 </script> 
-<script src="https://apis.google.com/js/client.js?onload=onClientReady">
+<script src="https://apis.google.com/js/client.js?onload=onClientReady"></script> 
 
 </head>
 
