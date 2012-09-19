@@ -40,6 +40,8 @@ var onClientReady;
     gadgets.rpc.call.apply(gadgets.rpc, rpcArgs);
   }
 
+  var ifrm_id;
+  
   /**
    * Creates the nested iframe.
    */
@@ -58,7 +60,7 @@ var onClientReady;
 
     // This builds the inner IFRAME that exists in the desired domain
     var ifrm = document.createElement('IFRAME');
-    var ifrm_id = 'googleplus_target';
+    ifrm_id = 'googleplus_target';
     ifrm.setAttribute('src',
         targetRoot + encodeUrlParams(targetParams));
     ifrm.style.width = '100%';
@@ -75,7 +77,13 @@ var onClientReady;
     document.body.appendChild(ifrm);
 
     // This allows us to receive RPCs from the new IFRAME
-    // TODO: Need to set up an event handler which will reset the reciever when the iframe is redirected.
+    setupReceiver();
+    
+    // Reset the RPC receiver if the iframe redirects.
+    iframe.addEventListener("onLoad", setupReceiver, false);
+  }
+  
+  function setupReceiver() {
     gadgets.rpc.setupReceiver(ifrm_id);
   }
 
