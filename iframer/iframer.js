@@ -80,7 +80,7 @@ var onClientReady;
     setupReceiver();
     
     // Reset the RPC receiver if the iframe redirects.
-    iframe.addEventListener("onLoad", setupReceiver, false);
+    ifrm.addEventListener("onLoad", setupReceiver, false);
   }
   
   function setupReceiver() {
