@@ -46,30 +46,30 @@
 // Must be global for call from jsapi load.
 var onClientReady;
 
-(function() {
-  /**
-  * Extracts url parameters of the containing window/iframe into an object.
-  * @param {string} url The url to extract the parameters from.
-  * @return {!Object} An object containing the paarameters as name/value pairs.
-  */
-  function getUrlParams(url) {
-    var result = {};
-    var paramRegex = /([^&=]+)=?([^&]*)/g;
-    var decode = function(value) {
-      var addRegex = /\+/g;
-      return decodeURIComponent(value.replace(addRegex, " "));
-    };
-    var startIndex =  url.indexOf('?') + 1;
-    if (startIndex > 0) {
-      var allParams = url.substring(url.indexOf('?') + 1);
-      var match;
-      while (match = paramRegex.exec(allParams)) {
-        result[decode(match[1])] = decode(match[2]);
-      }
+/**
+* Extracts url parameters of the containing window/iframe into an object.
+* @param {string} url The url to extract the parameters from.
+* @return {!Object} An object containing the paarameters as name/value pairs.
+*/
+function getUrlParams(url) {
+  var result = {};
+  var paramRegex = /([^&=]+)=?([^&]*)/g;
+  var decode = function(value) {
+    var addRegex = /\+/g;
+    return decodeURIComponent(value.replace(addRegex, " "));
+  };
+  var startIndex =  url.indexOf('?') + 1;
+  if (startIndex > 0) {
+    var allParams = url.substring(url.indexOf('?') + 1);
+    var match;
+    while (match = paramRegex.exec(allParams)) {
+      result[decode(match[1])] = decode(match[2]);
     }
-    return result;
   }
+  return result;
+}
 
+(function() {
   var urlParams = getUrlParams(window.location.href);
   var hangoutServer = urlParams.parent;
 
