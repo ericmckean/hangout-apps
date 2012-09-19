@@ -71,14 +71,7 @@ var onClientReady;
   }
 
   var urlParams = getUrlParams(window.location.href);
-
-  gadgetData = urlParams['gd'];
-  parentUrl = urlParams['parent'];
-  var parentParams = getUrlParams(parentUrl);
-  var hangoutServer = parentParams.parent;
-  
-  // TODO: Remove before ship.
-  debugger;
+  var hangoutServer = urlParams.parent;
 
   onClientReady = function() {
     $.getScript(hangoutServer + '/talkgadget/apps/gadgets/js/rpc.js',
