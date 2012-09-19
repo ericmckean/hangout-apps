@@ -76,6 +76,9 @@ var onClientReady;
   parentUrl = urlParams['parent'];
   var parentParams = getUrlParams(parentUrl);
   var hangoutServer = parentParams.parent;
+  
+  // TODO: Remove before ship.
+  debugger;
 
   onClientReady = function() {
     $.getScript(hangoutServer + '/talkgadget/apps/gadgets/js/rpc.js',
