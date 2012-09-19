@@ -1,3 +1,5 @@
+// Copyright 2012 Google Inc. All Rights Reserved.
+
 /**
  * Extracts the scheme, host and path of an Url.
  * @param {string} url The url to extract the parameters from.
@@ -27,6 +29,7 @@ function getUrlParams(url) {
   var startIndex =  url.indexOf('?') + 1;
   if (startIndex > 0) {
     var allParams = url.substring(url.indexOf('?') + 1);
+    var match;
     while (match = paramRegex.exec(allParams)) {
       result[decode(match[1])] = decode(match[2]);
     }
@@ -48,7 +51,6 @@ function encodeUrlParams(params) {
   return result;
 }
 
-
 /**
  * Writes a tag to the document.
  * @param {string} tag The tag to write.
@@ -56,7 +58,6 @@ function encodeUrlParams(params) {
 function writeTag(tag) {
   document.write(tag);
 }
-
 
 /**
  * Loads a javascript script by url.
